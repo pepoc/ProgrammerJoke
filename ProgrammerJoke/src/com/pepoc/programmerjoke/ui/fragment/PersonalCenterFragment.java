@@ -1,26 +1,28 @@
 package com.pepoc.programmerjoke.ui.fragment;
 
-import com.pepoc.programmerjoke.log.Log;
-import com.pepoc.programmerjoke.log.LogFactory;
+import com.pepoc.programmerjoke.R;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
-public class BaseFragment extends Fragment {
+public class PersonalCenterFragment extends BaseFragment {
 	
-	public final Log log = LogFactory.getLog(this.getClass());
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		log.info("--------------- onCreate --------------");
 		super.onCreate(savedInstanceState);
 	}
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		return super.onCreateView(inflater, container, savedInstanceState);
+		
+		log.info("--------------- onCreateView --------------");
+		ImageView imageView = new ImageView(getActivity());
+		imageView.setImageResource(R.drawable.ic_launcher);
+		return imageView;
 	}
 }

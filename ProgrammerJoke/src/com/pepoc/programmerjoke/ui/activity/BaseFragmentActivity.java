@@ -5,8 +5,12 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Window;
 
+import com.pepoc.programmerjoke.log.Log;
+import com.pepoc.programmerjoke.log.LogFactory;
+
 public class BaseFragmentActivity extends FragmentActivity {
 	
+	public final Log log = LogFactory.getLog(this.getClass());
 	public Context context;
 
 	@Override
