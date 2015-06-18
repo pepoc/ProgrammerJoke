@@ -25,4 +25,28 @@ public class PersonalCenterFragment extends BaseFragment {
 		imageView.setImageResource(R.drawable.ic_launcher);
 		return imageView;
 	}
+	
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		log.info("--------------- onActivityCreated --------------");
+		super.onActivityCreated(savedInstanceState);
+	}
+	
+	@Override
+	public void onStop() {
+		log.info("--------------- onStop --------------");
+		super.onStop();
+	}
+	
+	@Override
+	public void onDestroyView() {
+		log.info("--------------- onDestroyView --------------");
+		super.onDestroyView();
+	}
+	
+	@Override
+	public void onDestroy() {
+		log.info("--------------- onDestroy --------------");
+		super.onDestroy();
+	}
 }
