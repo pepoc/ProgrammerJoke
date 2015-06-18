@@ -1,5 +1,10 @@
 package com.pepoc.programmerjoke.ui.activity;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+
 import android.os.Bundle;
 import android.support.v4.app.FragmentTabHost;
 import android.view.View;
@@ -8,12 +13,15 @@ import android.widget.ImageView;
 import android.widget.TabHost.TabSpec;
 
 import com.pepoc.programmerjoke.R;
+import com.pepoc.programmerjoke.ui.fragment.BaseFragment;
 import com.pepoc.programmerjoke.ui.fragment.ListContentFragment;
 import com.pepoc.programmerjoke.ui.fragment.PersonalCenterFragment;
+import com.pepoc.programmerjoke.ui.fragment.WriteJokeFragment;
 
 public class MainActivity extends BaseFragmentActivity implements OnClickListener {
 
 	private FragmentTabHost tabHostMain;
+	private Map<String, Class<? extends BaseFragment>> fragmentMaps = new HashMap<String, Class<? extends BaseFragment>>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -29,18 +37,21 @@ public class MainActivity extends BaseFragmentActivity implements OnClickListene
 	public void init() {
 		super.init();
 		
+		fragmentMaps.put("tag1", ListContentFragment.class);
+		fragmentMaps.put("tag2", WriteJokeFragment.class);
+		fragmentMaps.put("tag3", PersonalCenterFragment.class);
+		
 		tabHostMain = (FragmentTabHost) findViewById(android.R.id.tabhost);
 		tabHostMain.setup(context, getSupportFragmentManager(), android.R.id.tabcontent);
 		
-		ImageView imageView = new ImageView(context);
-		imageView.setBackgroundResource(R.drawable.ic_launcher);
-		TabSpec tab1 = tabHostMain.newTabSpec("tab1").setIndicator(imageView);
-		tabHostMain.addTab(tab1, ListContentFragment.class, null);
-		
-		ImageView imageView1 = new ImageView(context);
-		imageView1.setBackgroundResource(R.drawable.ic_launcher);
-		TabSpec tab2 = tabHostMain.newTabSpec("tab2").setIndicator(imageView1);
-		tabHostMain.addTab(tab2, PersonalCenterFragment.class, null);
+		Set<String> keySet = fragmentMaps.keySet();
+		for (Iterator<String> it = keySet.iterator(); it.hasNext();) {
+			String key = it.next();
+			ImageView imageView = new ImageView(context);
+			imageView.setBackgroundResource(R.drawable.ic_launcher);
+			TabSpec tab = tabHostMain.newTabSpec(key).setIndicator(imageView);
+			tabHostMain.addTab(tab, fragmentMaps.get(key), null);
+		}
 		
 	}
 	
