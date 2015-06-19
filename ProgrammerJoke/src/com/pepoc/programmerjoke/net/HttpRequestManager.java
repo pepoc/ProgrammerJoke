@@ -9,9 +9,17 @@ import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.pepoc.programmerjoke.log.Log;
+import com.pepoc.programmerjoke.log.LogFactory;
 
+/**
+ * Http请求管理器
+ * @author yangchen
+ *
+ */
 public class HttpRequestManager {
 	
+	public final Log log = LogFactory.getLog(this.getClass());
 	private static HttpRequestManager instance = null;
 	private RequestQueue mRequestQueue;
 	private Context context;
@@ -31,13 +39,20 @@ public class HttpRequestManager {
 		this.context = context;
 	}
 
-	public void sendRequest(HttpRequest request) {
+	/**
+	 * 发送Http请求
+	 * @param request
+	 */
+	public void sendRequest(final HttpRequest request) {
 		if (HttpRequest.METHOD_GET.equals(request.getRequestMethod())) {
 			sendGetRequest(createGetRequestUrl(request), new Listener<String>() {
 
 				@Override
 				public void onResponse(String response) {
-					
+					log.info("<<<<<<<<<<<<<<< Http response result <<<<<<<<<<<<<<<");
+					log.info(response);
+					Object result = request.parseResponseResult(response);
+					request.getOnHttpResponseListener().onHttpResponse(result);
 				}
 				
 			}, new ErrorListener() {
@@ -60,9 +75,18 @@ public class HttpRequestManager {
 //		StringRequest request = new StringRequest(Request.Method.POST, url, listener, errorListener);
 	}
 	
+	/**
+	 * 组合一个get请求串
+	 * @param request
+	 * @return
+	 */
 	private String createGetRequestUrl(HttpRequest request) {
 		
 		return null;
+	}
+	
+	public interface OnHttpResponseListener {
+		void onHttpResponse(Object result);
 	}
 	
 }
