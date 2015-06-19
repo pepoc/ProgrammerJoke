@@ -1,4 +1,6 @@
-package com.pepoc.programmerjoke.net;
+package com.pepoc.programmerjoke.net.http;
+
+import java.util.HashMap;
 
 import android.content.Context;
 
@@ -44,8 +46,12 @@ public class HttpRequestManager {
 	 * @param request
 	 */
 	public void sendRequest(final HttpRequest request) {
+		String requestUrl = createGetRequestUrl(request);
+		log.info(">>>>>>>>>>>>>>> Http request url >>>>>>>>>>>>>>>");
+		log.info(requestUrl);
+		
 		if (HttpRequest.METHOD_GET.equals(request.getRequestMethod())) {
-			sendGetRequest(createGetRequestUrl(request), new Listener<String>() {
+			sendGetRequest(requestUrl, new Listener<String>() {
 
 				@Override
 				public void onResponse(String response) {
@@ -81,8 +87,18 @@ public class HttpRequestManager {
 	 * @return
 	 */
 	private String createGetRequestUrl(HttpRequest request) {
-		
-		return null;
+		String requestUrl = request.getURL();
+		HashMap<String, String> params = request.getParams();
+		if (params.size() > 0) {
+			StringBuilder sb = new StringBuilder();
+			sb.append(requestUrl).append("?");
+			for (String key : params.keySet()) {
+				sb.append(key + "=" + params.get(key) + "&");
+			}
+			String str = sb.toString();
+			requestUrl = str.substring(0, str.length() - 1);
+		}
+		return requestUrl;
 	}
 	
 	public interface OnHttpResponseListener {

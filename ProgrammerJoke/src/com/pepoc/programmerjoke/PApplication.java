@@ -1,6 +1,6 @@
 package com.pepoc.programmerjoke;
 
-import com.pepoc.programmerjoke.net.HttpRequestManager;
+import com.pepoc.programmerjoke.net.http.HttpRequestManager;
 
 import android.app.Application;
 import android.content.Context;

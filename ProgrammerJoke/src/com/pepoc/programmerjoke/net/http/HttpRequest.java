@@ -1,8 +1,8 @@
-package com.pepoc.programmerjoke.net;
+package com.pepoc.programmerjoke.net.http;
 
 import java.util.HashMap;
 
-import com.pepoc.programmerjoke.net.HttpRequestManager.OnHttpResponseListener;
+import com.pepoc.programmerjoke.net.http.HttpRequestManager.OnHttpResponseListener;
 
 public abstract class HttpRequest {
 
