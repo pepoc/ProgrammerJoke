@@ -27,7 +27,7 @@ public class HttpRequestManager {
 	private Context context;
 	
 	private HttpRequestManager() {
-		mRequestQueue = Volley.newRequestQueue(context);
+		
 	}
 	
 	public static HttpRequestManager getInstance() {
@@ -37,8 +37,9 @@ public class HttpRequestManager {
 		return instance;
 	}
 
-	public void setContext(Context context) {
+	public void init(Context context) {
 		this.context = context;
+		mRequestQueue = Volley.newRequestQueue(context);
 	}
 
 	/**
@@ -47,16 +48,14 @@ public class HttpRequestManager {
 	 */
 	public void sendRequest(final HttpRequest request) {
 		String requestUrl = createGetRequestUrl(request);
-		log.info(">>>>>>>>>>>>>>> Http request url >>>>>>>>>>>>>>>");
-		log.info(requestUrl);
+		log.info("Http request url >>>>>>>>>>>>>>> " + requestUrl);
 		
 		if (HttpRequest.METHOD_GET.equals(request.getRequestMethod())) {
 			sendGetRequest(requestUrl, new Listener<String>() {
 
 				@Override
 				public void onResponse(String response) {
-					log.info("<<<<<<<<<<<<<<< Http response result <<<<<<<<<<<<<<<");
-					log.info(response);
+					log.info("Http response result <<<<<<<<<<<<<<< " + response);
 					Object result = request.parseResponseResult(response);
 					request.getOnHttpResponseListener().onHttpResponse(result);
 				}

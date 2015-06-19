@@ -1,22 +1,21 @@
 package com.pepoc.programmerjoke.ui.activity;
 
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentTabHost;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TabHost.TabSpec;
+import android.widget.TextView;
 
 import com.pepoc.programmerjoke.R;
+import com.pepoc.programmerjoke.net.http.HttpRequestManager;
+import com.pepoc.programmerjoke.net.http.HttpRequestManager.OnHttpResponseListener;
+import com.pepoc.programmerjoke.net.http.request.RequestListContent;
 import com.pepoc.programmerjoke.ui.fragment.BaseFragment;
 import com.pepoc.programmerjoke.ui.fragment.ListContentFragment;
 import com.pepoc.programmerjoke.ui.fragment.PersonalCenterFragment;

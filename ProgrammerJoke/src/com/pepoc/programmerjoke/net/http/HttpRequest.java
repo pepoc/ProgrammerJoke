@@ -2,6 +2,7 @@ package com.pepoc.programmerjoke.net.http;
 
 import java.util.HashMap;
 
+import com.pepoc.programmerjoke.Config;
 import com.pepoc.programmerjoke.net.http.HttpRequestManager.OnHttpResponseListener;
 
 public abstract class HttpRequest {
@@ -22,7 +23,7 @@ public abstract class HttpRequest {
 	 * @return
 	 */
 	public String getURL() {
-		return URL;
+		return Config.HOST + URL;
 	}
 	
 	/**
@@ -31,14 +32,6 @@ public abstract class HttpRequest {
 	 */
 	public String getRequestMethod() {
 		return requestMethod;
-	}
-
-	/**
-	 * 设置Http请求类型
-	 * @param requestMethod
-	 */
-	public void setRequestMethod(String requestMethod) {
-		this.requestMethod = requestMethod;
 	}
 
 	/**

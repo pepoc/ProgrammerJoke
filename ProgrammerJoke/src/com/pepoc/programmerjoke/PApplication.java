@@ -14,6 +14,11 @@ public class PApplication extends Application {
 		super.onCreate();
 		context = this;
 		
-		HttpRequestManager.getInstance().setContext(context);
+		initHttpManager();
 	}
+	
+	private void initHttpManager() {
+		HttpRequestManager.getInstance().init(context);
+	}
+	
 }
