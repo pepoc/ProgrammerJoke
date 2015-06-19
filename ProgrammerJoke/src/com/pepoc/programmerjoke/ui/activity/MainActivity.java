@@ -2,6 +2,7 @@ package com.pepoc.programmerjoke.ui.activity;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -10,6 +11,9 @@ import android.support.v4.app.FragmentTabHost;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TabHost.TabSpec;
 
 import com.pepoc.programmerjoke.R;
@@ -22,6 +26,8 @@ public class MainActivity extends BaseFragmentActivity implements OnClickListene
 
 	private FragmentTabHost tabHostMain;
 	private Map<String, Class<? extends BaseFragment>> fragmentMaps = new HashMap<String, Class<? extends BaseFragment>>();
+	private Map<String, Integer> titles = new HashMap<String, Integer>();
+	private TextView tvMainFragmentTitle;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +43,12 @@ public class MainActivity extends BaseFragmentActivity implements OnClickListene
 	public void init() {
 		super.init();
 		
+		tvMainFragmentTitle = (TextView) findViewById(R.id.tv_main_fragment_title);
+		
+		titles.put("tag1", R.string.fragment_list_content_title);
+		titles.put("tag2", R.string.fragment_write_joke_title);
+		titles.put("tag3", R.string.fragment_personal_center);
+		
 		fragmentMaps.put("tag1", ListContentFragment.class);
 		fragmentMaps.put("tag2", WriteJokeFragment.class);
 		fragmentMaps.put("tag3", PersonalCenterFragment.class);
@@ -44,14 +56,21 @@ public class MainActivity extends BaseFragmentActivity implements OnClickListene
 		tabHostMain = (FragmentTabHost) findViewById(android.R.id.tabhost);
 		tabHostMain.setup(context, getSupportFragmentManager(), android.R.id.tabcontent);
 		
-		Set<String> keySet = fragmentMaps.keySet();
-		for (Iterator<String> it = keySet.iterator(); it.hasNext();) {
-			String key = it.next();
+		for (String key : fragmentMaps.keySet()) {
 			ImageView imageView = new ImageView(context);
 			imageView.setBackgroundResource(R.drawable.ic_launcher);
 			TabSpec tab = tabHostMain.newTabSpec(key).setIndicator(imageView);
 			tabHostMain.addTab(tab, fragmentMaps.get(key), null);
 		}
+		
+		tabHostMain.setOnTabChangedListener(new OnTabChangeListener() {
+			
+			@Override
+			public void onTabChanged(String tabId) {
+				int strId = titles.get(tabId).intValue();
+				tvMainFragmentTitle.setText(strId);
+			}
+		});
 		
 	}
 	

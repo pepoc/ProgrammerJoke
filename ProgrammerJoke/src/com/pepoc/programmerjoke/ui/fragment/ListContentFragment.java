@@ -1,19 +1,22 @@
 package com.pepoc.programmerjoke.ui.fragment;
 
-import com.pepoc.programmerjoke.R;
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.ListView;
+
+import com.pepoc.programmerjoke.R;
 
 /**
- * 显示段子列表页
+ * 段子列表页
  * @author yangchen
  *
  */
 public class ListContentFragment extends BaseFragment {
+	
+	private View rootView;
+	private ListView lvContentList;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -23,8 +26,29 @@ public class ListContentFragment extends BaseFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		ImageView imageView = new ImageView(getActivity());
-		imageView.setImageResource(R.drawable.bg_splash);
-		return imageView;
+		if (null == rootView) {
+			rootView = inflater.inflate(R.layout.fragment_list_content, null);
+			
+			init();
+			setListener();
+		}
+		
+		ViewGroup parent = (ViewGroup) rootView.getParent();
+		if (null != parent) {
+			parent.removeView(rootView);
+		}
+		return rootView;
+	}
+	
+	@Override
+	public void init() {
+		super.init();
+		
+		lvContentList = (ListView) rootView.findViewById(R.id.lv_content_list);
+	}
+	
+	@Override
+	public void setListener() {
+		super.setListener();
 	}
 }

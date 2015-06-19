@@ -1,35 +1,47 @@
-<android.support.v4.app.FragmentTabHost xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@android:id/tabhost"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
-
+    
     <RelativeLayout
+        android:id="@+id/rl_title"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:background="@android:color/darker_gray"
+        android:layout_height="40dip" >
         
-        <FrameLayout
-            android:id="@android:id/tabcontent"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@android:id/tabs" />
-
-        <TabWidget
-            android:id="@android:id/tabs"
-            android:layout_width="match_parent"
-            android:layout_height="50dip"
-            android:orientation="horizontal"
-            android:layout_alignParentBottom="true" />
-
+        <TextView
+            android:id="@+id/tv_main_fragment_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/fragment_list_content_title"
+            android:textSize="20sp" />
         
     </RelativeLayout>
 
-    <!--
-         <android.support.v4.app.FragmentTabHost
-        android:id="@+id/tab_host_main"
+    <android.support.v4.app.FragmentTabHost
+        android:id="@android:id/tabhost"
         android:layout_width="match_parent"
-        android:layout_height="50dip"
-        android:layout_alignParentBottom="true" />
-    -->
+        android:layout_height="match_parent"
+        android:layout_below="@id/rl_title" >
 
-</android.support.v4.app.FragmentTabHost>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <FrameLayout
+                android:id="@android:id/tabcontent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@android:id/tabs" />
+
+            <TabWidget
+                android:id="@android:id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="50dip"
+                android:layout_alignParentBottom="true"
+                android:orientation="horizontal" />
+        </RelativeLayout>
+    </android.support.v4.app.FragmentTabHost>
+
+</RelativeLayout>

@@ -4,5 +4,9 @@
     <string name="app_name">ProgrammerJoke</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    
+    <string name="fragment_list_content_title">程序员笑话</string>
+    <string name="fragment_write_joke_title">写段子</string>
+    <string name="fragment_personal_center">个人中心</string>
 
 </resources>

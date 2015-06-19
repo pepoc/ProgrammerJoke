@@ -15,6 +15,8 @@ import android.widget.ImageView;
  */
 public class PersonalCenterFragment extends BaseFragment {
 	
+	private View rootView;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -24,9 +26,15 @@ public class PersonalCenterFragment extends BaseFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		
-		ImageView imageView = new ImageView(getActivity());
-		imageView.setImageResource(R.drawable.ic_launcher);
-		return imageView;
+		if (null == rootView) {
+			rootView = inflater.inflate(R.layout.fragment_personal_center, null);
+		}
+		
+		ViewGroup parent = (ViewGroup) rootView.getParent();
+		if (null != parent) {
+			parent.removeView(rootView);
+		}
+		return rootView;
 	}
 	
 }

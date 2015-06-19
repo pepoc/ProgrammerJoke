@@ -27,4 +27,12 @@ public class BaseFragment extends Fragment {
 			Bundle savedInstanceState) {
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
+	
+	public void init() {
+
+	}
+	
+	public void setListener() {
+
+	}
 }

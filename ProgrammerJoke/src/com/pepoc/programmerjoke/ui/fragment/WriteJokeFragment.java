@@ -1,5 +1,7 @@
 package com.pepoc.programmerjoke.ui.fragment;
 
+import com.pepoc.programmerjoke.R;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +13,8 @@ import android.view.ViewGroup;
  *
  */
 public class WriteJokeFragment extends BaseFragment {
+	
+	private View rootView;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -20,6 +24,14 @@ public class WriteJokeFragment extends BaseFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		return super.onCreateView(inflater, container, savedInstanceState);
+		if (null == rootView) {
+			rootView = inflater.inflate(R.layout.fragment_write_joke, null);
+		}
+		
+		ViewGroup parent = (ViewGroup) rootView.getParent();
+		if (null != parent) {
+			parent.removeView(rootView);
+		}
+		return rootView;
 	}
 }
