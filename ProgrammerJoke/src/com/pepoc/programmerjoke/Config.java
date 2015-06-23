@@ -15,9 +15,9 @@ public class Config {
 	
 	// **************************** 新浪微博授权信息 **************************** //
 	/**
-	 * 微信第三方应用 APP_KEY
+	 * 微博第三方应用 APP_KEY
 	 */
-	public static final String APP_KEY      = "2045436852";
+	public static final String APP_KEY = "2045436852";
 	
 	/** 
      * 当前 DEMO 应用的回调页，第三方应用可以使用自己的回调页。
