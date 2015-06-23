@@ -17,7 +17,7 @@ public class Config {
 	/**
 	 * 微博第三方应用 APP_KEY
 	 */
-	public static final String APP_KEY = "2045436852";
+	public static final String APP_KEY = "1163286905";
 	
 	/** 
      * 当前 DEMO 应用的回调页，第三方应用可以使用自己的回调页。

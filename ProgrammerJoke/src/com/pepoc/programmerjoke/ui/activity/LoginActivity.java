@@ -1,5 +1,6 @@
 package com.pepoc.programmerjoke.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -116,6 +117,14 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 //            Toast.makeText(WBAuthActivity.this, 
 //                    "Auth exception : " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
+    }
+    
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    	super.onActivityResult(requestCode, resultCode, data);
+    	if (null != mSsoHandler) {
+			mSsoHandler.authorizeCallBack(requestCode, resultCode, data);
+		}
     }
 	
 }
