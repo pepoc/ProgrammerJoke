@@ -1,9 +1,11 @@
 package com.pepoc.programmerjoke.net.http;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import android.content.Context;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response.ErrorListener;
@@ -67,6 +69,20 @@ public class HttpRequestManager {
 					
 				}
 			});
+		} else if (HttpRequest.METHOD_POST.equals(request.getRequestMethod())) {
+			sendPostRequest(request.getURL(), new Listener<String>() {
+
+				@Override
+				public void onResponse(String response) {
+					
+				}
+			}, new ErrorListener() {
+
+				@Override
+				public void onErrorResponse(VolleyError error) {
+					
+				}
+			}, request.getParams());
 		}
 		
 	}
@@ -76,8 +92,14 @@ public class HttpRequestManager {
 		mRequestQueue.add(request);
 	}
 	
-	private void sendPostRequest() {
-//		StringRequest request = new StringRequest(Request.Method.POST, url, listener, errorListener);
+	private void sendPostRequest(String url, Listener<String> listener, ErrorListener errorListener, final Map<String, String> params) {
+		StringRequest request = new StringRequest(Request.Method.POST, url, listener, errorListener) {
+			@Override
+			protected Map<String, String> getParams() throws AuthFailureError {
+				return params;
+			}
+		};
+		mRequestQueue.add(request);
 	}
 	
 	/**
@@ -87,7 +109,7 @@ public class HttpRequestManager {
 	 */
 	private String createGetRequestUrl(HttpRequest request) {
 		String requestUrl = request.getURL();
-		HashMap<String, String> params = request.getParams();
+		Map<String, String> params = request.getParams();
 		if (params.size() > 0) {
 			StringBuilder sb = new StringBuilder();
 			sb.append(requestUrl).append("?");

@@ -1,6 +1,7 @@
 package com.pepoc.programmerjoke.net.http;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import com.pepoc.programmerjoke.Config;
 import com.pepoc.programmerjoke.net.http.HttpRequestManager.OnHttpResponseListener;
@@ -15,7 +16,7 @@ public abstract class HttpRequest {
 	 */
 	protected String requestMethod = METHOD_GET;
 	protected String URL = null;
-	private HashMap<String, String> params = new HashMap<String, String>();
+	private Map<String, String> params = new HashMap<String, String>();
 	public OnHttpResponseListener onHttpResponseListener;
 	
 	/**
@@ -39,7 +40,7 @@ public abstract class HttpRequest {
 	 * @param key
 	 * @param value
 	 */
-	public void addParam(String key, String value) {
+	public void putParam(String key, String value) {
 		params.put(key, value);
 	}
 
@@ -47,7 +48,7 @@ public abstract class HttpRequest {
 	 * 获取请求参数
 	 * @return
 	 */
-	public HashMap<String, String> getParams() {
+	public Map<String, String> getParams() {
 		return params;
 	}
 	

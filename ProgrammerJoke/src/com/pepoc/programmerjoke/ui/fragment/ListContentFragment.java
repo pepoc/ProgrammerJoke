@@ -39,7 +39,7 @@ public class ListContentFragment extends BaseFragment {
 			init();
 			setListener();
 			
-			getData();
+//			getData();
 		}
 		
 		ViewGroup parent = (ViewGroup) rootView.getParent();

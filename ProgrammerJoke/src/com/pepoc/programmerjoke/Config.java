@@ -10,7 +10,7 @@ public class Config {
 	/**
 	 * Http 请求主机
 	 */
-	public final static String HOST = "http://www.pepoc.com/dongxi/";
+	public final static String HOST = "http://www.pepoc.com/programmerjoke/";
 	
 	
 	// **************************** 新浪微博授权信息 **************************** //
