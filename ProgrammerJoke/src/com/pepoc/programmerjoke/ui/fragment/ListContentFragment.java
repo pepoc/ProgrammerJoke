@@ -3,9 +3,6 @@ package com.pepoc.programmerjoke.ui.fragment;
 import java.util.List;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.pepoc.programmerjoke.R;
@@ -21,39 +18,20 @@ import com.pepoc.programmerjoke.ui.adapter.ListContentAdapter;
  */
 public class ListContentFragment extends BaseFragment {
 	
-	private View rootView;
 	private ListView lvContentList;
 	private ListContentAdapter adapter;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-	}
-
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		if (null == rootView) {
-			rootView = inflater.inflate(R.layout.fragment_list_content, null);
-			
-			init();
-			setListener();
-			
-//			getData();
-		}
-		
-		ViewGroup parent = (ViewGroup) rootView.getParent();
-		if (null != parent) {
-			parent.removeView(rootView);
-		}
-		return rootView;
+		setContentView(R.layout.fragment_list_content);
 	}
 	
 	@Override
 	public void init() {
 		super.init();
 		
-		lvContentList = (ListView) rootView.findViewById(R.id.lv_content_list);
+		lvContentList = (ListView) findViewById(R.id.lv_content_list);
 		adapter = new ListContentAdapter(context);
 		lvContentList.setAdapter(adapter);
 	}

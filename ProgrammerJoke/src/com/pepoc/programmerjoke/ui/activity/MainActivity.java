@@ -3,12 +3,10 @@ package com.pepoc.programmerjoke.ui.activity;
 import java.util.HashMap;
 import java.util.Map;
 
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTabHost;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.ImageView;
 import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TabHost.TabSpec;
@@ -26,8 +24,6 @@ public class MainActivity extends BaseFragmentActivity implements OnClickListene
 	private Map<String, Class<? extends BaseFragment>> fragmentMaps = new HashMap<String, Class<? extends BaseFragment>>();
 	private Map<String, Integer> titles = new HashMap<String, Integer>();
 	private TextView tvMainFragmentTitle;
-	private View rlParent;
-	private View widgetTabs;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,9 +38,7 @@ public class MainActivity extends BaseFragmentActivity implements OnClickListene
 	@Override
 	public void init() {
 		super.init();
-		rlParent = findViewById(R.id.rl_parent);
 		tvMainFragmentTitle = (TextView) findViewById(R.id.tv_main_fragment_title);
-		widgetTabs = findViewById(android.R.id.tabs);
 		
 		titles.put("tag1", R.string.fragment_list_content_title);
 		titles.put("tag2", R.string.fragment_write_joke_title);
@@ -70,20 +64,6 @@ public class MainActivity extends BaseFragmentActivity implements OnClickListene
 			public void onTabChanged(String tabId) {
 				int strId = titles.get(tabId).intValue();
 				tvMainFragmentTitle.setText(strId);
-			}
-		});
-		
-		rlParent.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-			
-			@Override
-			public void onGlobalLayout() {
-				Rect rect = new Rect();
-				rlParent.getWindowVisibleDisplayFrame(rect);
-				if (rect.bottom < mScreenHeight) {
-//					widgetTabs.setVisibility(View.GONE);
-				} else {
-//					widgetTabs.setVisibility(View.VISIBLE);
-				}
 			}
 		});
 		

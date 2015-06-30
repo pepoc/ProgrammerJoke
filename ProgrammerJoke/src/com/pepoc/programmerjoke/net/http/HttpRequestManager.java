@@ -1,6 +1,5 @@
 package com.pepoc.programmerjoke.net.http;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import android.content.Context;
@@ -87,11 +86,24 @@ public class HttpRequestManager {
 		
 	}
 	
+	/**
+	 * 发送Get请求
+	 * @param url
+	 * @param listener
+	 * @param errorListener
+	 */
 	private void sendGetRequest(String url, Listener<String> listener, ErrorListener errorListener) {
 		StringRequest request = new StringRequest(Request.Method.GET, url, listener, errorListener);
 		mRequestQueue.add(request);
 	}
 	
+	/**
+	 * 发送Post请求
+	 * @param url
+	 * @param listener
+	 * @param errorListener
+	 * @param params
+	 */
 	private void sendPostRequest(String url, Listener<String> listener, ErrorListener errorListener, final Map<String, String> params) {
 		StringRequest request = new StringRequest(Request.Method.POST, url, listener, errorListener) {
 			@Override

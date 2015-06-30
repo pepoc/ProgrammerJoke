@@ -1,10 +1,8 @@
 package com.pepoc.programmerjoke.ui.fragment;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -20,37 +18,20 @@ import com.pepoc.programmerjoke.net.http.request.RequestAddJoke;
  */
 public class WriteJokeFragment extends BaseFragment {
 	
-	private View rootView;
 	private EditText etJokeContent;
 	private Button btnSubmit;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-	}
-	
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		if (null == rootView) {
-			rootView = inflater.inflate(R.layout.fragment_write_joke, null);
-			
-			init();
-			setListener();
-		}
-		
-		ViewGroup parent = (ViewGroup) rootView.getParent();
-		if (null != parent) {
-			parent.removeView(rootView);
-		}
-		return rootView;
+		setContentView(R.layout.fragment_write_joke);
 	}
 	
 	@Override
 	public void init() {
 		super.init();
-		etJokeContent = (EditText) rootView.findViewById(R.id.et_joke_content);
-		btnSubmit = (Button) rootView.findViewById(R.id.btn_submit);
+		etJokeContent = (EditText) findViewById(R.id.et_joke_content);
+		btnSubmit = (Button) findViewById(R.id.btn_submit);
 	}
 	
 	@Override
