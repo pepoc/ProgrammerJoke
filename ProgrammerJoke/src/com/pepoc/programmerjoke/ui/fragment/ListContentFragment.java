@@ -34,6 +34,8 @@ public class ListContentFragment extends BaseFragment {
 		lvContentList = (ListView) findViewById(R.id.lv_content_list);
 		adapter = new ListContentAdapter(context);
 		lvContentList.setAdapter(adapter);
+		
+		getData();
 	}
 	
 	@Override

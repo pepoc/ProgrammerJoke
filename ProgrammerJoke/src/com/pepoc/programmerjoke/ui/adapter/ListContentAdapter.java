@@ -3,10 +3,14 @@ package com.pepoc.programmerjoke.ui.adapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.pepoc.programmerjoke.R;
+
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class ListContentAdapter extends BaseAdapter {
@@ -44,12 +48,23 @@ public class ListContentAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		if (null == convertView) {
-			TextView textView = new TextView(context);
-			textView.setTextSize(20);
-			convertView = textView;
+			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			convertView = inflater.inflate(R.layout.item_list_content, null);
+			ViewHolder vh = new ViewHolder();
+			vh.ivUserAvatar = (ImageView) convertView.findViewById(R.id.iv_user_avatar);
+			vh.tvUserName = (TextView) convertView.findViewById(R.id.tv_user_name);
+			vh.tvContent = (TextView) convertView.findViewById(R.id.tv_content);
+			convertView.setTag(vh);
 		}
-		((TextView)convertView).setText(datas.get(position));
+		ViewHolder vh = (ViewHolder) convertView.getTag();
+		vh.tvContent.setText(datas.get(position));
 		return convertView;
+	}
+	
+	class ViewHolder {
+		ImageView ivUserAvatar;
+		TextView tvUserName;
+		TextView tvContent;
 	}
 
 }

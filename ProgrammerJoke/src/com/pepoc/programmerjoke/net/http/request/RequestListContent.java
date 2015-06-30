@@ -13,7 +13,7 @@ import com.pepoc.programmerjoke.net.http.HttpRequestManager.OnHttpResponseListen
 public class RequestListContent extends HttpRequest {
 	
 	public RequestListContent(OnHttpResponseListener onHttpResponseListener) {
-		this.URL = "get_goods.php";
+		this.URL = "getjokes.php";
 		this.onHttpResponseListener = onHttpResponseListener;
 	}
 
@@ -22,11 +22,11 @@ public class RequestListContent extends HttpRequest {
 		List<String> datas = new ArrayList<String>();
 		try {
 			JSONObject obj = new JSONObject(result);
-			JSONArray goodsLists = obj.getJSONArray("goodsList");
-			for (int i = 0; i < goodsLists.length(); i++) {
-				JSONObject goodsList = goodsLists.getJSONObject(i);
-				String goodsName = goodsList.getString("goodsName");
-				datas.add(goodsName);
+			JSONArray jokesLists = obj.getJSONArray("jokesList");
+			for (int i = 0; i < jokesLists.length(); i++) {
+				JSONObject jokesList = jokesLists.getJSONObject(i);
+				String jokeContent = jokesList.getString("jokeContent");
+				datas.add(jokeContent);
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
