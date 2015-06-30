@@ -73,7 +73,9 @@ public class HttpRequestManager {
 
 				@Override
 				public void onResponse(String response) {
-					
+					log.info("Http response result <<<<<<<<<<<<<<< " + response);
+					Object result = request.parseResponseResult(response);
+					request.getOnHttpResponseListener().onHttpResponse(result);
 				}
 			}, new ErrorListener() {
 
