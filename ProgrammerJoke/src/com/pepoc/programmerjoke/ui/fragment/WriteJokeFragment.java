@@ -10,6 +10,7 @@ import com.pepoc.programmerjoke.R;
 import com.pepoc.programmerjoke.net.http.HttpRequestManager;
 import com.pepoc.programmerjoke.net.http.HttpRequestManager.OnHttpResponseListener;
 import com.pepoc.programmerjoke.net.http.request.RequestAddJoke;
+import com.pepoc.programmerjoke.user.UserManager;
 
 /**
  * 写段子
@@ -43,7 +44,7 @@ public class WriteJokeFragment extends BaseFragment {
 			@Override
 			public void onClick(View v) {
 				String content = etJokeContent.getText().toString();
-				addJoke(content, "1");
+				addJoke(content, UserManager.getCurrentUser().getUserId());
 			}
 		});
 	}
