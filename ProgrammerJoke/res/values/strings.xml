@@ -8,5 +8,7 @@
     <string name="fragment_list_content_title">程序员笑话</string>
     <string name="fragment_write_joke_title">写段子</string>
     <string name="fragment_personal_center">个人中心</string>
+    
+    <string name="gl_wait">请稍等</string>
 
 </resources>

@@ -1,5 +1,7 @@
 package com.pepoc.programmerjoke.user;
 
+import com.pepoc.programmerjoke.utils.Preference;
+
 /**
  * 
  * @author yangchen
@@ -22,6 +24,10 @@ public class UserManager {
 	}
 
 	public static UserInfo getCurrentUser() {
+		if (currentUser == null) {
+			currentUser = new UserInfo();
+			currentUser.setUserId(Preference.getUserId());
+		}
 		return currentUser;
 	}
 

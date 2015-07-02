@@ -3,9 +3,17 @@ package com.pepoc.programmerjoke.utils;
 import java.io.IOException;
 
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.PorterDuff.Mode;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.media.ExifInterface;
+import android.util.Log;
 
 public class BitmapUtil {
 
@@ -71,28 +79,21 @@ public class BitmapUtil {
 			BitmapFactory.decodeFile(path, opts);
 			int srcWidth = opts.outWidth;// 获取图片的原始宽度
 			int srcHeight = opts.outHeight;// 获取图片原始高度
-//			int destWidth = 0;
-//			int destHeight = 0;
-			int reqHeight = 1280;// 这里阀值设置高度为1280
-			int reqWidth = 720;// 这里阀值设置宽度为720
+			int reqHeight = 960;// 这里阀值设置高度为960
+			int reqWidth = 640;// 这里阀值设置宽度为640
 			// 缩放的比例
 			double ratio = 1.0;
 			if (srcWidth < reqWidth || srcHeight < reqHeight) {
 				ratio = 1.0;
-//				destWidth = srcWidth;
-//				destHeight = srcHeight;
 			} else if (srcWidth > srcHeight) {// 按比例计算缩放后的图片大小，maxLength是长或宽允许的最大长度
-				ratio = (double) srcWidth / w;
-//				destWidth = w;
-//				destHeight = (int) (srcHeight / ratio);
+				ratio = (double) srcWidth / reqWidth;
 			} else {
-				ratio = (double) srcHeight / h;
-//				destHeight = h;
-//				destWidth = (int) (srcWidth / ratio);
+				ratio = (double) srcHeight / reqHeight;
 			}
 			// inJustDecodeBounds设为false表示把图片读进内存中
 			opts.inJustDecodeBounds = false;
 			// 缩放的比例，缩放是很难按准备的比例进行缩放的，目前我只发现只能通过inSampleSize来进行缩放，其值表明缩放的倍数，SDK中建议其值是2的指数值
+			Log.i("lalalalalala", srcWidth + " ============= " + ratio);
 			opts.inSampleSize = (int) ratio;
 			// 设置大小，这个一般是不准确的，是以inSampleSize的为准，但是如果不设置却不能缩放
 //			newOpts.outHeight = destHeight;
@@ -104,4 +105,64 @@ public class BitmapUtil {
 			return null;
 		}
 	}
+	
+	/**
+     * 转换图片成圆形
+     * @param bitmap 传入Bitmap对象
+     * @return
+     */
+    public static Bitmap toRoundBitmap(Bitmap bitmap) {
+    	if (null == bitmap) {
+			return null;
+		}
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+        float roundPx;
+        float left,top,right,bottom,dst_left,dst_top,dst_right,dst_bottom;
+        if (width <= height) {
+                roundPx = width / 2;
+                top = 0;
+                bottom = width;
+                left = 0;
+                right = width;
+                height = width;
+                dst_left = 0;
+                dst_top = 0;
+                dst_right = width;
+                dst_bottom = width;
+        } else {
+                roundPx = height / 2;
+                float clip = (width - height) / 2;
+                left = clip;
+                right = width - clip;
+                top = 0;
+                bottom = height;
+                width = height;
+                dst_left = 0;
+                dst_top = 0;
+                dst_right = height;
+                dst_bottom = height;
+        }
+         
+        Bitmap output = Bitmap.createBitmap(width,
+                        height, Config.ARGB_8888);
+        Canvas canvas = new Canvas(output);
+         
+        final int color = 0xff424242;
+        final Paint paint = new Paint();
+        final Rect src = new Rect((int)left, (int)top, (int)right, (int)bottom);
+        final Rect dst = new Rect((int)dst_left, (int)dst_top, (int)dst_right, (int)dst_bottom);
+        final RectF rectF = new RectF(dst);
+
+        paint.setAntiAlias(true);
+         
+        canvas.drawARGB(0, 0, 0, 0);
+        paint.setColor(color);
+        canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
+
+        paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
+        canvas.drawBitmap(bitmap, src, dst, paint);
+        return output;
+    }
+	
 }

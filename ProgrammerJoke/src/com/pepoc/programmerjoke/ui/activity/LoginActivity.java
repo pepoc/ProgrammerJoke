@@ -16,6 +16,7 @@ import com.pepoc.programmerjoke.net.http.HttpRequestManager;
 import com.pepoc.programmerjoke.net.http.HttpRequestManager.OnHttpResponseListener;
 import com.pepoc.programmerjoke.net.http.request.RequestLogin;
 import com.pepoc.programmerjoke.observer.LoginObservable;
+import com.pepoc.programmerjoke.user.UserManager;
 import com.pepoc.programmerjoke.utils.Preference;
 
 public class LoginActivity extends BaseActivity implements OnClickListener, Observer {
@@ -86,6 +87,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener, Obse
 					Toast.makeText(context, "login success", Toast.LENGTH_SHORT).show();
 					LoginObservable.getInstance().updateObserver(null);
 					
+					Preference.saveUserId(UserManager.getCurrentUser().getUserId());
 					Preference.saveIsLogin(true);
 					Preference.savePhoneNumber(phoneNumber);
 					Preference.savePassword(password);

@@ -6,25 +6,34 @@ import java.util.Observer;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.pepoc.programmerjoke.Config;
 import com.pepoc.programmerjoke.R;
+import com.pepoc.programmerjoke.constants.Constant;
+import com.pepoc.programmerjoke.net.PImageLoader;
 import com.pepoc.programmerjoke.net.http.HttpRequestManager;
 import com.pepoc.programmerjoke.net.http.HttpRequestManager.OnHttpResponseListener;
 import com.pepoc.programmerjoke.net.http.request.RequestUpToken;
+import com.pepoc.programmerjoke.net.http.request.RequestUpdateUserInfo;
 import com.pepoc.programmerjoke.observer.LoginObservable;
 import com.pepoc.programmerjoke.ui.activity.ClipImageActivity;
 import com.pepoc.programmerjoke.ui.activity.LoginActivity;
 import com.pepoc.programmerjoke.ui.activity.RegisterActivity;
+import com.pepoc.programmerjoke.user.UserInfo;
+import com.pepoc.programmerjoke.user.UserManager;
 import com.pepoc.programmerjoke.utils.Preference;
 import com.qiniu.android.http.ResponseInfo;
 import com.qiniu.android.storage.UpCompletionHandler;
@@ -46,12 +55,15 @@ public class PersonalCenterFragment extends BaseFragment implements OnClickListe
 	private String picturePath;
 	private String key;
 	private String uploadToken;
+	private UserInfo userInfo;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.fragment_personal_center);
 		LoginObservable.getInstance().addObserver(this);
+		
+		userInfo = UserManager.getCurrentUser();
 	}
 	
 	@Override
@@ -63,7 +75,7 @@ public class PersonalCenterFragment extends BaseFragment implements OnClickListe
 		btnLogin = (Button) findViewById(R.id.btn_login);
 		btn_register = (Button) findViewById(R.id.btn_register);
 		ivAvatar = (ImageView) findViewById(R.id.iv_avatar);
-		
+		PImageLoader.getInstance().displayImage(userInfo.getAvatar(), ivAvatar);
 		// 判断一下是否是登录状态
 		if (Preference.isLogin()) {
 			loginSuccess();
@@ -101,20 +113,26 @@ public class PersonalCenterFragment extends BaseFragment implements OnClickListe
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		Uri uri = data.getData();
-		String[] filePathColumns = {MediaStore.Images.Media.DATA};
-		Cursor cursor = context.getContentResolver().query(uri, filePathColumns, null, null, null);
-		if (cursor.moveToFirst()) {
-			int columnIndex = cursor.getColumnIndex(filePathColumns[0]);
-			picturePath = cursor.getString(columnIndex);
-			log.info("Picture Path === " + picturePath);
-			
-//			upLoadAvatar();
-			Intent intent = new Intent(context, ClipImageActivity.class);
-			intent.putExtra("picturePath", picturePath);
-			startActivity(intent);
+		if (resultCode == Activity.RESULT_OK) {
+			Uri uri = data.getData();
+			String[] filePathColumns = {MediaStore.Images.Media.DATA};
+			Cursor cursor = context.getContentResolver().query(uri, filePathColumns, null, null, null);
+			if (cursor.moveToFirst()) {
+				int columnIndex = cursor.getColumnIndex(filePathColumns[0]);
+				picturePath = cursor.getString(columnIndex);
+				log.info("Picture Path === " + picturePath);
+				
+				Intent intent = new Intent(context, ClipImageActivity.class);
+				intent.putExtra("picturePath", picturePath);
+				startActivityForResult(intent, 11);
+			}
+			cursor.close();
+		} else if (resultCode == Constant.RESULT_OK) {
+			picturePath = data.getStringExtra("filePath");
+			if (!TextUtils.isEmpty(picturePath)) {
+				upLoadAvatar();
+			}
 		}
-		cursor.close();
 	}
 	
 	@Override
@@ -128,6 +146,8 @@ public class PersonalCenterFragment extends BaseFragment implements OnClickListe
 	private void loginSuccess() {
 		llPersonalInfo.setVisibility(View.VISIBLE);
 		llLoginOrRegister.setVisibility(View.GONE);
+		
+		PImageLoader.getInstance().displayImage(UserManager.getCurrentUser().getAvatar(), ivAvatar);
 	}
 	
 	/**
@@ -156,18 +176,39 @@ public class PersonalCenterFragment extends BaseFragment implements OnClickListe
 					public void complete(String key, ResponseInfo info, JSONObject response) {
 						if (info.isOK()) {
 							Log.i("qiniu", "=== upload success ===");
+							Toast.makeText(context, "upload success", Toast.LENGTH_SHORT).show();
+							uploadAvatar();
 						} else {
-							Log.i("qiniu", "error");
+							Log.i("qiniu", "fail");
+							Toast.makeText(context, "upload fail", Toast.LENGTH_SHORT).show();
 						}
 					}
 				}, null);
 			}
 		});
 		
-		key = "pj_" + System.currentTimeMillis();
+		key = "pj_avatar_" + System.currentTimeMillis();
 		requestUpToken.putParam("key", key);
 		
 		HttpRequestManager.getInstance().sendRequest(requestUpToken);
+	}
+	
+	/**
+	 * 上传头像
+	 */
+	private void uploadAvatar() {
+		RequestUpdateUserInfo requestUpdateUserInfo = new RequestUpdateUserInfo(new OnHttpResponseListener() {
+			
+			@Override
+			public void onHttpResponse(Object result) {
+				PImageLoader.getInstance().displayImage(Config.IMAGE_HOST + key + Config.IMAGE_SIZE, ivAvatar);
+			}
+		});
+		
+		requestUpdateUserInfo.putParam("userId", UserManager.getCurrentUser().getUserId());
+		requestUpdateUserInfo.putParam("avatar", key);
+		
+		HttpRequestManager.getInstance().sendRequest(requestUpdateUserInfo);
 	}
 	
 	/**
@@ -175,8 +216,7 @@ public class PersonalCenterFragment extends BaseFragment implements OnClickListe
 	 */
 	private void getHeaderFromGallery() {
 		Intent intent = new Intent(Intent.ACTION_GET_CONTENT, null);
-		intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-				IMAGE_UNSPECIFIED);
+		intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, IMAGE_UNSPECIFIED);
 		startActivityForResult(intent, 99);
 	}
 	

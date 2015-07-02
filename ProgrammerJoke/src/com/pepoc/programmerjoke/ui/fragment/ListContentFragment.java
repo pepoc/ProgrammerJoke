@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.widget.ListView;
 
 import com.pepoc.programmerjoke.R;
+import com.pepoc.programmerjoke.data.bean.JokeContent;
 import com.pepoc.programmerjoke.net.http.HttpRequestManager;
 import com.pepoc.programmerjoke.net.http.HttpRequestManager.OnHttpResponseListener;
 import com.pepoc.programmerjoke.net.http.request.RequestListContent;
@@ -49,7 +50,7 @@ public class ListContentFragment extends BaseFragment {
 			
 			@Override
 			public void onHttpResponse(Object result) {
-				adapter.setDatas((List<String>) result);
+				adapter.setDatas((List<JokeContent>) result);
 				adapter.notifyDataSetChanged();
 			}
 		});

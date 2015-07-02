@@ -7,6 +7,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.pepoc.programmerjoke.data.bean.JokeContent;
 import com.pepoc.programmerjoke.net.http.HttpRequest;
 import com.pepoc.programmerjoke.net.http.HttpRequestManager.OnHttpResponseListener;
 
@@ -19,14 +20,21 @@ public class RequestListContent extends HttpRequest {
 
 	@Override
 	public Object parseResponseResult(String result) {
-		List<String> datas = new ArrayList<String>();
+		List<JokeContent> datas = new ArrayList<JokeContent>();
 		try {
 			JSONObject obj = new JSONObject(result);
-			JSONArray jokesLists = obj.getJSONArray("jokesList");
-			for (int i = 0; i < jokesLists.length(); i++) {
-				JSONObject jokesList = jokesLists.getJSONObject(i);
-				String jokeContent = jokesList.getString("jokeContent");
-				datas.add(jokeContent);
+			String status = obj.getString("status");
+			if ("1".equals(status)) {
+				JSONArray jokesLists = obj.getJSONArray("jokesList");
+				for (int i = 0; i < jokesLists.length(); i++) {
+					JokeContent jokeContent = new JokeContent();
+					JSONObject jokesList = jokesLists.getJSONObject(i);
+					jokeContent.setContent(jokesList.getString("jokeContent"));
+					jokeContent.setUserId(jokesList.getString("userId"));
+					jokeContent.setUserNickName(jokesList.getString("nickName"));
+					jokeContent.setUserAvatar(jokesList.getString("avatar"));
+					datas.add(jokeContent);
+				}
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
