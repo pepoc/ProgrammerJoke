@@ -4,10 +4,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.pepoc.programmerjoke.Config;
+import com.pepoc.programmerjoke.log.Log;
+import com.pepoc.programmerjoke.log.LogFactory;
 import com.pepoc.programmerjoke.net.http.HttpRequestManager.OnHttpResponseListener;
 
 public abstract class HttpRequest {
 
+	public final Log log = LogFactory.getLog(this.getClass());
 	public static final String METHOD_GET = "GET";
 	public static final String METHOD_POST = "POST";
 	
@@ -16,8 +19,8 @@ public abstract class HttpRequest {
 	 */
 	protected String requestMethod = METHOD_GET;
 	protected String URL = null;
-	private Map<String, String> params = new HashMap<String, String>();
-	public OnHttpResponseListener onHttpResponseListener;
+	protected OnHttpResponseListener onHttpResponseListener;
+	protected Map<String, String> params = new HashMap<String, String>();
 	
 	/**
 	 * 获取请求Url

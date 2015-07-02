@@ -1,45 +1,81 @@
 package com.pepoc.programmerjoke.ui.fragment;
 
+import java.util.Observable;
+import java.util.Observer;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.pepoc.programmerjoke.R;
+import com.pepoc.programmerjoke.net.http.HttpRequestManager;
+import com.pepoc.programmerjoke.net.http.HttpRequestManager.OnHttpResponseListener;
+import com.pepoc.programmerjoke.net.http.request.RequestUpToken;
+import com.pepoc.programmerjoke.observer.LoginObservable;
+import com.pepoc.programmerjoke.ui.activity.ClipImageActivity;
 import com.pepoc.programmerjoke.ui.activity.LoginActivity;
 import com.pepoc.programmerjoke.ui.activity.RegisterActivity;
+import com.pepoc.programmerjoke.utils.Preference;
+import com.qiniu.android.http.ResponseInfo;
+import com.qiniu.android.storage.UpCompletionHandler;
+import com.qiniu.android.storage.UploadManager;
 
 /**
  * 个人中心
  * @author yangchen
  *
  */
-public class PersonalCenterFragment extends BaseFragment implements OnClickListener {
+public class PersonalCenterFragment extends BaseFragment implements OnClickListener, Observer {
 	
+	private View llPersonalInfo;
+	private View llLoginOrRegister;
 	private Button btnLogin;
 	private Button btn_register;
+	private ImageView ivAvatar;
+	private static final String IMAGE_UNSPECIFIED = "image/*";
+	private String picturePath;
+	private String key;
+	private String uploadToken;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.fragment_personal_center);
+		LoginObservable.getInstance().addObserver(this);
 	}
 	
 	@Override
 	public void init() {
 		super.init();
 		
+		llPersonalInfo = findViewById(R.id.ll_personal_info);
+		llLoginOrRegister = findViewById(R.id.ll_login_or_register);
 		btnLogin = (Button) findViewById(R.id.btn_login);
 		btn_register = (Button) findViewById(R.id.btn_register);
+		ivAvatar = (ImageView) findViewById(R.id.iv_avatar);
+		
+		// 判断一下是否是登录状态
+		if (Preference.isLogin()) {
+			loginSuccess();
+		}
 	}
 	
 	@Override
 	public void setListener() {
 		super.setListener();
-		
 		btnLogin.setOnClickListener(this);
 		btn_register.setOnClickListener(this);
+		ivAvatar.setOnClickListener(this);
 	}
 	
 	@Override
@@ -53,10 +89,95 @@ public class PersonalCenterFragment extends BaseFragment implements OnClickListe
 			Intent registerIntent = new Intent(context, RegisterActivity.class);
 			startActivity(registerIntent);
 			break;
+		case R.id.iv_avatar:
+			getHeaderFromGallery();
+			break;
 
 		default:
 			break;
 		}
+	}
+	
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		Uri uri = data.getData();
+		String[] filePathColumns = {MediaStore.Images.Media.DATA};
+		Cursor cursor = context.getContentResolver().query(uri, filePathColumns, null, null, null);
+		if (cursor.moveToFirst()) {
+			int columnIndex = cursor.getColumnIndex(filePathColumns[0]);
+			picturePath = cursor.getString(columnIndex);
+			log.info("Picture Path === " + picturePath);
+			
+//			upLoadAvatar();
+			Intent intent = new Intent(context, ClipImageActivity.class);
+			intent.putExtra("picturePath", picturePath);
+			startActivity(intent);
+		}
+		cursor.close();
+	}
+	
+	@Override
+	public void update(Observable observable, Object data) {
+		loginSuccess();
+	}
+	
+	/**
+	 * 登录成功后 处理
+	 */
+	private void loginSuccess() {
+		llPersonalInfo.setVisibility(View.VISIBLE);
+		llLoginOrRegister.setVisibility(View.GONE);
+	}
+	
+	/**
+	 * 上传头像
+	 */
+	private void upLoadAvatar() {
+		RequestUpToken requestUpToken = new RequestUpToken(new OnHttpResponseListener() {
+			
+			@Override
+			public void onHttpResponse(Object result) {
+				try {
+					JSONObject obj = new JSONObject((String)result);
+					String status = obj.getString("status");
+					if ("1".equals(status)) {
+						uploadToken = obj.getString("upToken");
+					}
+				} catch (JSONException e) {
+					log.error("get uptoken", e);
+				}
+				
+				// 七牛上传
+				UploadManager uploadManager = new UploadManager();
+				uploadManager.put(picturePath, key, uploadToken, new UpCompletionHandler() {
+					
+					@Override
+					public void complete(String key, ResponseInfo info, JSONObject response) {
+						if (info.isOK()) {
+							Log.i("qiniu", "=== upload success ===");
+						} else {
+							Log.i("qiniu", "error");
+						}
+					}
+				}, null);
+			}
+		});
+		
+		key = "pj_" + System.currentTimeMillis();
+		requestUpToken.putParam("key", key);
+		
+		HttpRequestManager.getInstance().sendRequest(requestUpToken);
+	}
+	
+	/**
+	 * 打开相册
+	 */
+	private void getHeaderFromGallery() {
+		Intent intent = new Intent(Intent.ACTION_GET_CONTENT, null);
+		intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+				IMAGE_UNSPECIFIED);
+		startActivityForResult(intent, 99);
 	}
 	
 }
