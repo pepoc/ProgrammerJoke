@@ -17,6 +17,7 @@ import com.pepoc.programmerjoke.net.http.HttpRequestManager;
 import com.pepoc.programmerjoke.net.http.HttpRequestManager.OnHttpResponseListener;
 import com.pepoc.programmerjoke.net.http.request.RequestRegister;
 import com.pepoc.programmerjoke.observer.LoginObservable;
+import com.pepoc.programmerjoke.user.UserInfo;
 import com.pepoc.programmerjoke.user.UserManager;
 import com.pepoc.programmerjoke.utils.Preference;
 
@@ -83,16 +84,20 @@ public class RegisterActivity extends BaseActivity implements OnClickListener, O
 					String status = obj.getString("status");
 					if ("1".equals(status)) {
 						String userId = obj.getString("userId");
+						log.info("userId ============ " + userId);
+						UserInfo info = new UserInfo();
+						info.setUserId(userId);
+						info.setNickName(nickName);
+						info.setPhoneNumber(phoneNumber);
+						info.setPassword(password);
+						UserManager.setCurrentUser(info);
+						
+						LoginObservable.getInstance().updateObserver(null);
+						Preference.saveIsLogin(true);
 					}
 				} catch (JSONException e) {
 					log.error("register", e);
 				}
-				LoginObservable.getInstance().updateObserver(null);
-				
-				Preference.saveUserId(UserManager.getCurrentUser().getUserId());
-				Preference.saveIsLogin(true);
-				Preference.savePhoneNumber(phoneNumber);
-				Preference.savePassword(password);
 			}
 		});
 		

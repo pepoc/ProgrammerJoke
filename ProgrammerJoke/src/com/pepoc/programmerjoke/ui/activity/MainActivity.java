@@ -110,11 +110,8 @@ public class MainActivity extends BaseFragmentActivity implements OnClickListene
 				if (isLoginSuccess) {
 					Toast.makeText(context, "login success", Toast.LENGTH_SHORT).show();
 					LoginObservable.getInstance().updateObserver(null);
-					
-					Preference.saveUserId(UserManager.getCurrentUser().getUserId());
 					Preference.saveIsLogin(true);
-					Preference.savePhoneNumber(phoneNumber);
-					Preference.savePassword(password);
+					
 				} else {
 					Toast.makeText(context, "login failed", Toast.LENGTH_SHORT).show();
 				}

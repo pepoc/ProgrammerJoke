@@ -24,15 +24,18 @@ public class UserManager {
 	}
 
 	public static UserInfo getCurrentUser() {
-		if (currentUser == null) {
-			currentUser = new UserInfo();
-			currentUser.setUserId(Preference.getUserId());
-		}
 		return currentUser;
 	}
 
 	public static void setCurrentUser(UserInfo currentUser) {
 		UserManager.currentUser = currentUser;
+		
+		if (null == currentUser) {
+			return ;
+		}
+		Preference.saveUserId(currentUser.getUserId());
+		Preference.savePhoneNumber(currentUser.getPhoneNumber());
+		Preference.savePassword(currentUser.getPassword());
 	}
 	
 }

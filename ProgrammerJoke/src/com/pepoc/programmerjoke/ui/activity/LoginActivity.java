@@ -4,6 +4,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -78,6 +79,10 @@ public class LoginActivity extends BaseActivity implements OnClickListener, Obse
 	private void login() {
 		phoneNumber = etPhoneNumber.getText().toString();
 		password = etPassword.getText().toString();
+		if (TextUtils.isEmpty(phoneNumber) || TextUtils.isEmpty(password)) {
+			Toast.makeText(context, "phone number or password null", Toast.LENGTH_SHORT).show();
+			return ;
+		}
 		RequestLogin requestLogin = new RequestLogin(new OnHttpResponseListener() {
 			
 			@Override
@@ -86,11 +91,8 @@ public class LoginActivity extends BaseActivity implements OnClickListener, Obse
 				if (isLoginSuccess) {
 					Toast.makeText(context, "login success", Toast.LENGTH_SHORT).show();
 					LoginObservable.getInstance().updateObserver(null);
-					
-					Preference.saveUserId(UserManager.getCurrentUser().getUserId());
 					Preference.saveIsLogin(true);
-					Preference.savePhoneNumber(phoneNumber);
-					Preference.savePassword(password);
+					
 				} else {
 					Toast.makeText(context, "login failed", Toast.LENGTH_SHORT).show();
 				}

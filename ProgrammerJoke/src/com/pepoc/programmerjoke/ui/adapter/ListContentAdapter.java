@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +30,7 @@ public class ListContentAdapter extends BaseAdapter {
 	}
 
 	public void setDatas(List<JokeContent> datas) {
-		this.datas = datas;
+		this.datas.addAll(datas);
 	}
 
 	@Override
@@ -61,9 +62,14 @@ public class ListContentAdapter extends BaseAdapter {
 		}
 		ViewHolder vh = (ViewHolder) convertView.getTag();
 		JokeContent jokeContent = datas.get(position);
+		vh.tvUserName.setText(jokeContent.getUserNickName());
 		vh.tvContent.setText(jokeContent.getContent());
 		vh.tvCreateTime.setText(jokeContent.getCreateTime());
-		PImageLoader.getInstance().displayImage(jokeContent.getUserAvatar(), vh.ivUserAvatar);
+		if (TextUtils.isEmpty(jokeContent.getUserAvatar())) {
+			vh.ivUserAvatar.setImageResource(R.drawable.icon);
+		} else {
+			PImageLoader.getInstance().displayImage(jokeContent.getUserAvatar(), vh.ivUserAvatar);
+		}
 		return convertView;
 	}
 	

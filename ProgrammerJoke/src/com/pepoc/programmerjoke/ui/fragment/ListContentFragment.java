@@ -3,7 +3,6 @@ package com.pepoc.programmerjoke.ui.fragment;
 import java.util.List;
 
 import android.content.Intent;
-import android.graphics.PorterDuff.Mode;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -31,6 +30,7 @@ public class ListContentFragment extends BaseFragment implements OnItemClickList
 	private PullToRefreshListView mPullRefreshListView;
 	private ListView lvContentList;
 	private ListContentAdapter adapter;
+	private int page = 1;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -52,7 +52,7 @@ public class ListContentFragment extends BaseFragment implements OnItemClickList
 		adapter = new ListContentAdapter(context);
 		lvContentList.setAdapter(adapter);
 		
-		getData();
+		getData(true);
 	}
 	
 	@Override
@@ -66,33 +66,48 @@ public class ListContentFragment extends BaseFragment implements OnItemClickList
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		List<JokeContent> datas = adapter.getDatas();
 		Intent intent = new Intent(context, JokeContentActivity.class);
-		intent.putExtra("JokeContent", datas.get(position));
+		intent.putExtra("JokeContent", datas.get(position - 1));
 		startActivity(intent);
 	}
 	
-	private void getData() {
+	/**
+	 * 获取数据
+	 * @param isRefresh true:是刷新     false:加载更多
+	 */
+	private void getData(final boolean isRefresh) {
+		if (isRefresh) {
+			page = 1;
+		} else {
+			page++;
+		}
 		
 		RequestListContent request = new RequestListContent(new OnHttpResponseListener() {
 			
 			@Override
 			public void onHttpResponse(Object result) {
-				adapter.setDatas((List<JokeContent>) result);
+				List<JokeContent> datas = (List<JokeContent>) result;
+				if (isRefresh) {
+					adapter.getDatas().clear();
+				}
+				adapter.setDatas(datas);
 				adapter.notifyDataSetChanged();
 				mPullRefreshListView.onRefreshComplete();
 			}
 		});
+		
+		request.putParam("page", String.valueOf(page));
 		
 		HttpRequestManager.getInstance().sendRequest(request);
 	}
 
 	@Override
 	public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-		getData();
+		getData(true);
 	}
 
 	@Override
 	public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-		
+		getData(false);
 	}
 
 }

@@ -18,9 +18,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.pepoc.programmerjoke.Config;
 import com.pepoc.programmerjoke.R;
 import com.pepoc.programmerjoke.constants.Constant;
 import com.pepoc.programmerjoke.net.PImageLoader;
@@ -49,14 +49,14 @@ public class PersonalCenterFragment extends BaseFragment implements OnClickListe
 	private View llPersonalInfo;
 	private View llLoginOrRegister;
 	private Button btnLogin;
-	private Button btn_register;
+	private Button btnRegister;
 	private ImageView ivAvatar;
 	private static final String IMAGE_UNSPECIFIED = "image/*";
 	private String picturePath;
 	private String key;
 	private String uploadToken;
-	private UserInfo userInfo;
 	private Button btnLogout;
+	private TextView tvNickName;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -64,7 +64,6 @@ public class PersonalCenterFragment extends BaseFragment implements OnClickListe
 		setContentView(R.layout.fragment_personal_center);
 		LoginObservable.getInstance().addObserver(this);
 		
-		userInfo = UserManager.getCurrentUser();
 	}
 	
 	@Override
@@ -74,11 +73,12 @@ public class PersonalCenterFragment extends BaseFragment implements OnClickListe
 		llPersonalInfo = findViewById(R.id.ll_personal_info);
 		llLoginOrRegister = findViewById(R.id.ll_login_or_register);
 		btnLogin = (Button) findViewById(R.id.btn_login);
-		btn_register = (Button) findViewById(R.id.btn_register);
+		btnRegister = (Button) findViewById(R.id.btn_register);
 		ivAvatar = (ImageView) findViewById(R.id.iv_avatar);
+		tvNickName = (TextView) findViewById(R.id.tv_nick_name);
 		btnLogout = (Button) findViewById(R.id.btn_logout);
-		PImageLoader.getInstance().displayImage(userInfo.getAvatar(), ivAvatar);
-		// 判断一下是否是登录状态
+		
+		// 判断一下登录状态
 		if (Preference.isLogin()) {
 			setLoginStatus(true);
 		}
@@ -88,7 +88,7 @@ public class PersonalCenterFragment extends BaseFragment implements OnClickListe
 	public void setListener() {
 		super.setListener();
 		btnLogin.setOnClickListener(this);
-		btn_register.setOnClickListener(this);
+		btnRegister.setOnClickListener(this);
 		ivAvatar.setOnClickListener(this);
 		btnLogout.setOnClickListener(this);
 	}
@@ -154,7 +154,13 @@ public class PersonalCenterFragment extends BaseFragment implements OnClickListe
 		if (loginStatus) {
 			llPersonalInfo.setVisibility(View.VISIBLE);
 			llLoginOrRegister.setVisibility(View.GONE);
-			PImageLoader.getInstance().displayImage(UserManager.getCurrentUser().getAvatar(), ivAvatar);
+			UserInfo currentUser = UserManager.getCurrentUser();
+			tvNickName.setText(currentUser.getNickName());
+			if (TextUtils.isEmpty(currentUser.getAvatar())) {
+				ivAvatar.setImageResource(R.drawable.icon);
+			} else {
+				PImageLoader.getInstance().displayImage(currentUser.getAvatar(), ivAvatar);
+			}
 		} else {
 			llPersonalInfo.setVisibility(View.GONE);
 			llLoginOrRegister.setVisibility(View.VISIBLE);
