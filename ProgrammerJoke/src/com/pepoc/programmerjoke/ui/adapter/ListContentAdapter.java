@@ -29,7 +29,7 @@ public class ListContentAdapter extends BaseAdapter {
 	}
 
 	public void setDatas(List<JokeContent> datas) {
-		this.datas.addAll(datas);
+		this.datas = datas;
 	}
 
 	@Override
@@ -56,11 +56,13 @@ public class ListContentAdapter extends BaseAdapter {
 			vh.ivUserAvatar = (ImageView) convertView.findViewById(R.id.iv_user_avatar);
 			vh.tvUserName = (TextView) convertView.findViewById(R.id.tv_user_name);
 			vh.tvContent = (TextView) convertView.findViewById(R.id.tv_content);
+			vh.tvCreateTime = (TextView) convertView.findViewById(R.id.tv_create_time);
 			convertView.setTag(vh);
 		}
 		ViewHolder vh = (ViewHolder) convertView.getTag();
 		JokeContent jokeContent = datas.get(position);
 		vh.tvContent.setText(jokeContent.getContent());
+		vh.tvCreateTime.setText(jokeContent.getCreateTime());
 		PImageLoader.getInstance().displayImage(jokeContent.getUserAvatar(), vh.ivUserAvatar);
 		return convertView;
 	}
@@ -69,6 +71,7 @@ public class ListContentAdapter extends BaseAdapter {
 		ImageView ivUserAvatar;
 		TextView tvUserName;
 		TextView tvContent;
+		TextView tvCreateTime;
 	}
 
 }

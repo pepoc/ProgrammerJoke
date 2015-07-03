@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.pepoc.programmerjoke.R;
 import com.pepoc.programmerjoke.net.http.HttpRequestManager;
@@ -54,7 +55,11 @@ public class WriteJokeFragment extends BaseFragment {
 			
 			@Override
 			public void onHttpResponse(Object result) {
-				
+				String status = (String) result;
+				if ("1".equals(status)) {
+					Toast.makeText(context, "send success", Toast.LENGTH_SHORT).show();
+					etJokeContent.setText("");
+				}
 			}
 		});
 		

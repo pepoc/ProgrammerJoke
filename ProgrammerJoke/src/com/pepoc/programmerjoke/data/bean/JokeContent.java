@@ -7,6 +7,7 @@ public class JokeContent implements Parcelable {
 
 	private String jokeId;
 	private String content;
+	private String createTime;
 	private String userId;
 	private String userNickName;
 	private String userAvatar;
@@ -22,6 +23,12 @@ public class JokeContent implements Parcelable {
 	}
 	public void setContent(String content) {
 		this.content = content;
+	}
+	public String getCreateTime() {
+		return createTime;
+	}
+	public void setCreateTime(String createTime) {
+		this.createTime = createTime;
 	}
 	public String getUserId() {
 		return userId;
@@ -49,6 +56,7 @@ public class JokeContent implements Parcelable {
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeString(jokeId);
 		dest.writeString(content);
+		dest.writeString(createTime);
 		dest.writeString(userId);
 		dest.writeString(userNickName);
 		dest.writeString(userAvatar);
@@ -61,6 +69,7 @@ public class JokeContent implements Parcelable {
 			JokeContent jokeContent = new JokeContent();
 			jokeContent.jokeId = source.readString();
 			jokeContent.content = source.readString();
+			jokeContent.createTime = source.readString();
 			jokeContent.userId = source.readString();
 			jokeContent.userNickName = source.readString();
 			jokeContent.userAvatar = source.readString();

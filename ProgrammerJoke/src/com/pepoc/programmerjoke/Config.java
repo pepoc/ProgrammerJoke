@@ -17,6 +17,9 @@ public class Config {
 	 */
 	public final static String IMAGE_HOST = "http://source.findfine.com.cn/";
 	
+	/**
+	 * 七牛图片尺寸100*100
+	 */
 	public final static String IMAGE_SIZE = "?imageView2/2/w/100/h/100/q/75/format/JPG";
 
 }

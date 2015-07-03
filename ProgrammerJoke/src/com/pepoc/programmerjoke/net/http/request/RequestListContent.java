@@ -31,6 +31,7 @@ public class RequestListContent extends HttpRequest {
 					JSONObject jokesList = jokesLists.getJSONObject(i);
 					jokeContent.setJokeId(jokesList.getString("jokeId"));
 					jokeContent.setContent(jokesList.getString("jokeContent"));
+					jokeContent.setCreateTime(jokesList.getString("createTime"));
 					jokeContent.setUserId(jokesList.getString("userId"));
 					jokeContent.setUserNickName(jokesList.getString("nickName"));
 					jokeContent.setUserAvatar(jokesList.getString("avatar"));

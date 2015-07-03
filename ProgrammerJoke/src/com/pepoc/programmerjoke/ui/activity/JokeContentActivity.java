@@ -1,5 +1,7 @@
 package com.pepoc.programmerjoke.ui.activity;
 
+import java.util.List;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -9,13 +11,16 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.pepoc.programmerjoke.R;
+import com.pepoc.programmerjoke.data.bean.JokeComment;
 import com.pepoc.programmerjoke.data.bean.JokeContent;
 import com.pepoc.programmerjoke.net.PImageLoader;
 import com.pepoc.programmerjoke.net.http.HttpRequestManager;
 import com.pepoc.programmerjoke.net.http.HttpRequestManager.OnHttpResponseListener;
 import com.pepoc.programmerjoke.net.http.request.RequestComment;
+import com.pepoc.programmerjoke.net.http.request.RequestGetComment;
 import com.pepoc.programmerjoke.ui.adapter.JokeContentAdapter;
 
 public class JokeContentActivity extends BaseActivity implements OnClickListener {
@@ -27,6 +32,7 @@ public class JokeContentActivity extends BaseActivity implements OnClickListener
 	private View headerJokeContent;
 	private EditText etJokeComment;
 	private Button btnSendComment;
+	private JokeContentAdapter jokeContentAdapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +54,7 @@ public class JokeContentActivity extends BaseActivity implements OnClickListener
 		lvJokeComment = (ListView) findViewById(R.id.lv_joke_comment);
 		headerJokeContent = View.inflate(context, R.layout.header_joke_content, null);
 		lvJokeComment.addHeaderView(headerJokeContent);
-		JokeContentAdapter jokeContentAdapter = new JokeContentAdapter();
+		jokeContentAdapter = new JokeContentAdapter(context);
 		lvJokeComment.setAdapter(jokeContentAdapter);
 		jokeContentAdapter.notifyDataSetChanged();
 		
@@ -61,6 +67,8 @@ public class JokeContentActivity extends BaseActivity implements OnClickListener
 		PImageLoader.getInstance().displayImage(jokeContent.getUserAvatar(), ivUserAvatar);
 		tvUserName.setText(jokeContent.getUserNickName());
 		tvContent.setText(jokeContent.getContent());
+		
+		getComment();
 	}
 	
 	@Override
@@ -82,12 +90,19 @@ public class JokeContentActivity extends BaseActivity implements OnClickListener
 		}
 	}
 	
+	/**
+	 * 发送评论
+	 */
 	private void comment() {
 		RequestComment requestComment = new RequestComment(new OnHttpResponseListener() {
 			
 			@Override
 			public void onHttpResponse(Object result) {
-				
+				boolean isSuccess = (Boolean) result;
+				if (isSuccess) {
+					Toast.makeText(context, "comment success", Toast.LENGTH_SHORT).show();
+					getComment();
+				}
 			}
 		});
 		
@@ -97,6 +112,25 @@ public class JokeContentActivity extends BaseActivity implements OnClickListener
 		requestComment.putParam("userId", jokeContent.getUserId());
 		
 		HttpRequestManager.getInstance().sendRequest(requestComment);
+	}
+	
+	/**
+	 * 获取评论
+	 */
+	private void getComment() {
+		RequestGetComment requestGetComment = new RequestGetComment(new OnHttpResponseListener() {
+			
+			@Override
+			public void onHttpResponse(Object result) {
+				List<JokeComment> jokeComments = (List<JokeComment>) result;
+				jokeContentAdapter.setJokeComments(jokeComments);
+				jokeContentAdapter.notifyDataSetChanged();
+			}
+		});
+		
+		requestGetComment.putParam("jokeId", jokeContent.getJokeId());
+		
+		HttpRequestManager.getInstance().sendRequest(requestGetComment);
 	}
 	
 }

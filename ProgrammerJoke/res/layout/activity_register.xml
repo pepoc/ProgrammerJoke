@@ -19,6 +19,12 @@
         android:inputType="textPassword"
         android:hint="password" />
     
+    <EditText
+        android:id="@+id/et_nick_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="nick name" />
+    
     <Button
         android:id="@+id/btn_register"
         android:layout_width="match_parent"
