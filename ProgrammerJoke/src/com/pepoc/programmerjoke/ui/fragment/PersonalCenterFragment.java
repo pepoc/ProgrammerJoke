@@ -56,6 +56,7 @@ public class PersonalCenterFragment extends BaseFragment implements OnClickListe
 	private String key;
 	private String uploadToken;
 	private UserInfo userInfo;
+	private Button btnLogout;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -75,10 +76,11 @@ public class PersonalCenterFragment extends BaseFragment implements OnClickListe
 		btnLogin = (Button) findViewById(R.id.btn_login);
 		btn_register = (Button) findViewById(R.id.btn_register);
 		ivAvatar = (ImageView) findViewById(R.id.iv_avatar);
+		btnLogout = (Button) findViewById(R.id.btn_logout);
 		PImageLoader.getInstance().displayImage(userInfo.getAvatar(), ivAvatar);
 		// 判断一下是否是登录状态
 		if (Preference.isLogin()) {
-			loginSuccess();
+			setLoginStatus(true);
 		}
 	}
 	
@@ -88,6 +90,7 @@ public class PersonalCenterFragment extends BaseFragment implements OnClickListe
 		btnLogin.setOnClickListener(this);
 		btn_register.setOnClickListener(this);
 		ivAvatar.setOnClickListener(this);
+		btnLogout.setOnClickListener(this);
 	}
 	
 	@Override
@@ -103,6 +106,9 @@ public class PersonalCenterFragment extends BaseFragment implements OnClickListe
 			break;
 		case R.id.iv_avatar:
 			getHeaderFromGallery();
+			break;
+		case R.id.btn_logout:
+			setLoginStatus(false);
 			break;
 
 		default:
@@ -137,17 +143,27 @@ public class PersonalCenterFragment extends BaseFragment implements OnClickListe
 	
 	@Override
 	public void update(Observable observable, Object data) {
-		loginSuccess();
+		setLoginStatus(true);
 	}
 	
 	/**
-	 * 登录成功后 处理
+	 * 登录状态 处理
+	 * @param loginStatus true:为登录成功       false:为未登录
 	 */
-	private void loginSuccess() {
-		llPersonalInfo.setVisibility(View.VISIBLE);
-		llLoginOrRegister.setVisibility(View.GONE);
-		
-		PImageLoader.getInstance().displayImage(UserManager.getCurrentUser().getAvatar(), ivAvatar);
+	private void setLoginStatus(boolean loginStatus) {
+		if (loginStatus) {
+			llPersonalInfo.setVisibility(View.VISIBLE);
+			llLoginOrRegister.setVisibility(View.GONE);
+			PImageLoader.getInstance().displayImage(UserManager.getCurrentUser().getAvatar(), ivAvatar);
+		} else {
+			llPersonalInfo.setVisibility(View.GONE);
+			llLoginOrRegister.setVisibility(View.VISIBLE);
+			
+			UserManager.setCurrentUser(null);
+			Preference.saveIsLogin(false);
+			Preference.savePhoneNumber(null);
+			Preference.savePassword(null);
+		}
 	}
 	
 	/**
@@ -177,7 +193,7 @@ public class PersonalCenterFragment extends BaseFragment implements OnClickListe
 						if (info.isOK()) {
 							Log.i("qiniu", "=== upload success ===");
 							Toast.makeText(context, "upload success", Toast.LENGTH_SHORT).show();
-							uploadAvatar();
+							uploadAvatarKey();
 						} else {
 							Log.i("qiniu", "fail");
 							Toast.makeText(context, "upload fail", Toast.LENGTH_SHORT).show();
@@ -196,12 +212,12 @@ public class PersonalCenterFragment extends BaseFragment implements OnClickListe
 	/**
 	 * 上传头像
 	 */
-	private void uploadAvatar() {
+	private void uploadAvatarKey() {
 		RequestUpdateUserInfo requestUpdateUserInfo = new RequestUpdateUserInfo(new OnHttpResponseListener() {
 			
 			@Override
 			public void onHttpResponse(Object result) {
-				PImageLoader.getInstance().displayImage(Config.IMAGE_HOST + key + Config.IMAGE_SIZE, ivAvatar);
+				PImageLoader.getInstance().displayImage(key, ivAvatar);
 			}
 		});
 		

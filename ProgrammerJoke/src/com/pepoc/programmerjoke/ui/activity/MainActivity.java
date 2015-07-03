@@ -3,20 +3,29 @@ package com.pepoc.programmerjoke.ui.activity;
 import java.util.HashMap;
 import java.util.Map;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTabHost;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
+import android.widget.Toast;
 import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 
 import com.pepoc.programmerjoke.R;
+import com.pepoc.programmerjoke.net.http.HttpRequestManager;
+import com.pepoc.programmerjoke.net.http.HttpRequestManager.OnHttpResponseListener;
+import com.pepoc.programmerjoke.net.http.request.RequestLogin;
+import com.pepoc.programmerjoke.observer.LoginObservable;
 import com.pepoc.programmerjoke.ui.fragment.BaseFragment;
 import com.pepoc.programmerjoke.ui.fragment.ListContentFragment;
 import com.pepoc.programmerjoke.ui.fragment.PersonalCenterFragment;
 import com.pepoc.programmerjoke.ui.fragment.WriteJokeFragment;
+import com.pepoc.programmerjoke.user.UserManager;
+import com.pepoc.programmerjoke.utils.Preference;
 
 public class MainActivity extends BaseFragmentActivity implements OnClickListener {
 
@@ -33,6 +42,8 @@ public class MainActivity extends BaseFragmentActivity implements OnClickListene
 		
 		init();
 		setListener();
+		
+		autoLogin();
 	}
 	
 	@Override
@@ -82,6 +93,38 @@ public class MainActivity extends BaseFragmentActivity implements OnClickListene
 		default:
 			break;
 		}
+	}
+	
+	private void autoLogin() {
+		final String phoneNumber = Preference.getPhoneNumber();
+		final String password = Preference.getPassword();
+		if (TextUtils.isEmpty(phoneNumber) || TextUtils.isEmpty(password)) {
+			return ;
+		}
+		
+		RequestLogin requestLogin = new RequestLogin(new OnHttpResponseListener() {
+			
+			@Override
+			public void onHttpResponse(Object result) {
+				boolean isLoginSuccess = (Boolean) result;
+				if (isLoginSuccess) {
+					Toast.makeText(context, "login success", Toast.LENGTH_SHORT).show();
+					LoginObservable.getInstance().updateObserver(null);
+					
+					Preference.saveUserId(UserManager.getCurrentUser().getUserId());
+					Preference.saveIsLogin(true);
+					Preference.savePhoneNumber(phoneNumber);
+					Preference.savePassword(password);
+				} else {
+					Toast.makeText(context, "login failed", Toast.LENGTH_SHORT).show();
+				}
+			}
+		});
+		
+		requestLogin.putParam("phoneNumber", phoneNumber);
+		requestLogin.putParam("password", password);
+		
+		HttpRequestManager.getInstance().sendRequest(requestLogin);
 	}
 
 }
