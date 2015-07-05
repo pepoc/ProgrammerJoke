@@ -62,6 +62,7 @@ public class JokeContentAdapter extends BaseAdapter {
 		ViewHolder vh = (ViewHolder) convertView.getTag();
 		JokeComment jokeComment = jokeComments.get(position);
 		vh.tvComment.setText(jokeComment.getContent());
+		vh.tvUserName.setText(jokeComment.getUserNickName());
 		PImageLoader.getInstance().displayImage(jokeComment.getUserAvatar(), vh.ivUserAvatar);
 		return convertView;
 	}

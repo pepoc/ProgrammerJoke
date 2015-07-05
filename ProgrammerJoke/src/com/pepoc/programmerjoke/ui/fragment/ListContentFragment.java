@@ -4,10 +4,12 @@ import java.util.List;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
@@ -31,6 +33,22 @@ public class ListContentFragment extends BaseFragment implements OnItemClickList
 	private ListView lvContentList;
 	private ListContentAdapter adapter;
 	private int page = 1;
+	
+	/** 是否还有更多数据 */
+	private boolean isHasMoreData = true;
+	
+	private Handler handler = new Handler() {
+		public void handleMessage(android.os.Message msg) {
+			switch (msg.what) {
+			case 1000:
+				mPullRefreshListView.onRefreshComplete();
+				break;
+
+			default:
+				break;
+			}
+		}
+	};
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -77,7 +95,13 @@ public class ListContentFragment extends BaseFragment implements OnItemClickList
 	private void getData(final boolean isRefresh) {
 		if (isRefresh) {
 			page = 1;
+			isHasMoreData = true;
 		} else {
+			if (!isHasMoreData) {
+				Toast.makeText(context, "没有更多的数据了", Toast.LENGTH_SHORT).show();
+				handler.sendEmptyMessage(1000);
+				return ;
+			}
 			page++;
 		}
 		
@@ -86,6 +110,9 @@ public class ListContentFragment extends BaseFragment implements OnItemClickList
 			@Override
 			public void onHttpResponse(Object result) {
 				List<JokeContent> datas = (List<JokeContent>) result;
+				if (datas.size() < 20) {
+					isHasMoreData = false;
+				}
 				if (isRefresh) {
 					adapter.getDatas().clear();
 				}

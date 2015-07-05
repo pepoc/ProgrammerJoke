@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -22,6 +23,9 @@ import com.pepoc.programmerjoke.net.http.HttpRequestManager.OnHttpResponseListen
 import com.pepoc.programmerjoke.net.http.request.RequestComment;
 import com.pepoc.programmerjoke.net.http.request.RequestGetComment;
 import com.pepoc.programmerjoke.ui.adapter.JokeContentAdapter;
+import com.pepoc.programmerjoke.user.UserManager;
+import com.pepoc.programmerjoke.utils.Preference;
+import com.pepoc.programmerjoke.utils.Util;
 
 public class JokeContentActivity extends BaseActivity implements OnClickListener {
 
@@ -82,7 +86,16 @@ public class JokeContentActivity extends BaseActivity implements OnClickListener
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.btn_send_comment:
-			comment();
+			if (Preference.isLogin()) {
+				String commentContent = etJokeComment.getText().toString();
+				if (TextUtils.isEmpty(commentContent)) {
+					Toast.makeText(context, "评论内容不能为空", Toast.LENGTH_SHORT).show();
+				} else {
+					comment(commentContent);
+				}
+			} else {
+				Toast.makeText(context, "登录后才能评论", Toast.LENGTH_SHORT).show();
+			}
 			break;
 
 		default:
@@ -93,7 +106,7 @@ public class JokeContentActivity extends BaseActivity implements OnClickListener
 	/**
 	 * 发送评论
 	 */
-	private void comment() {
+	private void comment(String commentContent) {
 		RequestComment requestComment = new RequestComment(new OnHttpResponseListener() {
 			
 			@Override
@@ -101,15 +114,16 @@ public class JokeContentActivity extends BaseActivity implements OnClickListener
 				boolean isSuccess = (Boolean) result;
 				if (isSuccess) {
 					Toast.makeText(context, "comment success", Toast.LENGTH_SHORT).show();
+					etJokeComment.setText("");
+					Util.hiddenSoftKeyborad(etJokeComment, context);
 					getComment();
 				}
 			}
 		});
 		
-		String commentContent = etJokeComment.getText().toString();
 		requestComment.putParam("content", commentContent);
 		requestComment.putParam("jokeId", jokeContent.getJokeId());
-		requestComment.putParam("userId", jokeContent.getUserId());
+		requestComment.putParam("userId", UserManager.getCurrentUser().getUserId());
 		
 		HttpRequestManager.getInstance().sendRequest(requestComment);
 	}
