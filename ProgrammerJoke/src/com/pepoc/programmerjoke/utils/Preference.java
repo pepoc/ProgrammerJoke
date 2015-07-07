@@ -9,19 +9,19 @@ import com.pepoc.programmerjoke.PApplication;
 public class Preference {
 	
 	private static final SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(PApplication.getInstance());
-	private static final String PHONE_NUMBER = "phone_number";
+	private static final String ACCOUNT_NUMBER = "phone_number";
 	private static final String PASSWORD = "password";
 	private static final String USER_ID = "user_id";
 	private static final String IS_LOGIN = "is_login";
 
-	public static void savePhoneNumber(String phoneNumber) {
+	public static void saveAccountNumber(String accountNumber) {
 		Editor editor = sp.edit();
-		editor.putString(PHONE_NUMBER, phoneNumber);
+		editor.putString(ACCOUNT_NUMBER, accountNumber);
 		editor.commit();
 	}
 	
-	public static String getPhoneNumber() {
-		return sp.getString(PHONE_NUMBER, null);
+	public static String getAccountNumber() {
+		return sp.getString(ACCOUNT_NUMBER, null);
 	}
 	
 	public static void savePassword(String password) {

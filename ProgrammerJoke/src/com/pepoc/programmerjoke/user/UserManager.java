@@ -34,7 +34,7 @@ public class UserManager {
 			return ;
 		}
 		Preference.saveUserId(currentUser.getUserId());
-		Preference.savePhoneNumber(currentUser.getPhoneNumber());
+		Preference.saveAccountNumber(currentUser.getAccountNumber());
 		Preference.savePassword(currentUser.getPassword());
 	}
 	

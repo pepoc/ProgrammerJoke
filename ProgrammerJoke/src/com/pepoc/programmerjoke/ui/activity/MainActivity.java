@@ -96,9 +96,9 @@ public class MainActivity extends BaseFragmentActivity implements OnClickListene
 	}
 	
 	private void autoLogin() {
-		final String phoneNumber = Preference.getPhoneNumber();
+		final String accountNumber = Preference.getAccountNumber();
 		final String password = Preference.getPassword();
-		if (TextUtils.isEmpty(phoneNumber) || TextUtils.isEmpty(password)) {
+		if (TextUtils.isEmpty(accountNumber) || TextUtils.isEmpty(password)) {
 			return ;
 		}
 		
@@ -118,7 +118,7 @@ public class MainActivity extends BaseFragmentActivity implements OnClickListene
 			}
 		});
 		
-		requestLogin.putParam("phoneNumber", phoneNumber);
+		requestLogin.putParam("accountNumber", accountNumber);
 		requestLogin.putParam("password", password);
 		
 		HttpRequestManager.getInstance().sendRequest(requestLogin);

@@ -3,11 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <ListView
-        android:id="@+id/lv_joke_comment"
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
+        xmlns:ptr="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/lv_joke_comment_list_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/rl_comment" />
+        android:layout_above="@+id/rl_comment"
+        ptr:ptrHeaderTextColor="@android:color/darker_gray"
+        ptr:ptrMode="pullFromEnd" />
 
     <RelativeLayout
         android:id="@+id/rl_comment"

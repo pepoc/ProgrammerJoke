@@ -167,7 +167,7 @@ public class PersonalCenterFragment extends BaseFragment implements OnClickListe
 			
 			UserManager.setCurrentUser(null);
 			Preference.saveIsLogin(false);
-			Preference.savePhoneNumber(null);
+			Preference.saveAccountNumber(null);
 			Preference.savePassword(null);
 		}
 	}

@@ -3,7 +3,7 @@ package com.pepoc.programmerjoke.user;
 public class UserInfo {
 
 	private String userId;
-	private String phoneNumber;
+	private String accountNumber;
 	private String password;
 	private String nickName;
 	private String sex;
@@ -20,11 +20,11 @@ public class UserInfo {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-	public String getPhoneNumber() {
-		return phoneNumber;
+	public String getAccountNumber() {
+		return accountNumber;
 	}
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
+	public void setAccountNumber(String accountNumber) {
+		this.accountNumber = accountNumber;
 	}
 	public String getPassword() {
 		return password;

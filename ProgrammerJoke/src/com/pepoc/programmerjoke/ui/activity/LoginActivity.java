@@ -22,10 +22,10 @@ import com.pepoc.programmerjoke.utils.Preference;
 
 public class LoginActivity extends BaseActivity implements OnClickListener, Observer {
 
-	private EditText etPhoneNumber;
+	private EditText etAccountNumber;
 	private EditText etPassword;
 	private Button btnLogin;
-	private String phoneNumber, password;
+	private String accountNumber, password;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,15 +42,15 @@ public class LoginActivity extends BaseActivity implements OnClickListener, Obse
 	public void init() {
 		super.init();
 		
-		etPhoneNumber = (EditText) findViewById(R.id.et_phone_number);
+		etAccountNumber = (EditText) findViewById(R.id.et_account_number);
 		etPassword = (EditText) findViewById(R.id.et_password);
 		btnLogin = (Button) findViewById(R.id.btn_login);
 		
-		String phoneNumber = Preference.getPhoneNumber();
+		String phoneNumber = Preference.getAccountNumber();
 		String password = Preference.getPassword();
 		
 		if (!TextUtils.isEmpty(phoneNumber)) {
-			etPhoneNumber.setText(phoneNumber);
+			etAccountNumber.setText(phoneNumber);
 		}
 		if (!TextUtils.isEmpty(password)) {
 			etPassword.setText(password);
@@ -77,10 +77,10 @@ public class LoginActivity extends BaseActivity implements OnClickListener, Obse
 	}
 	
 	private void login() {
-		phoneNumber = etPhoneNumber.getText().toString();
+		accountNumber = etAccountNumber.getText().toString();
 		password = etPassword.getText().toString();
-		if (TextUtils.isEmpty(phoneNumber) || TextUtils.isEmpty(password)) {
-			Toast.makeText(context, "phone number or password null", Toast.LENGTH_SHORT).show();
+		if (TextUtils.isEmpty(accountNumber) || TextUtils.isEmpty(password)) {
+			Toast.makeText(context, "account number or password null", Toast.LENGTH_SHORT).show();
 			return ;
 		}
 		RequestLogin requestLogin = new RequestLogin(new OnHttpResponseListener() {
@@ -99,7 +99,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener, Obse
 			}
 		});
 		
-		requestLogin.putParam("phoneNumber", phoneNumber);
+		requestLogin.putParam("accountNumber", accountNumber);
 		requestLogin.putParam("password", password);
 		
 		HttpRequestManager.getInstance().sendRequest(requestLogin);

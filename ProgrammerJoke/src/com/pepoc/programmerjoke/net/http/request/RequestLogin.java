@@ -24,7 +24,7 @@ public class RequestLogin extends HttpRequest {
 			if ("1".equals(status)) {
 				JSONObject userInfoObj = obj.getJSONObject("userInfo");
 				UserInfo userInfo = new UserInfo();
-				userInfo.setPhoneNumber(params.get("phoneNumber"));
+				userInfo.setAccountNumber(params.get("accountNumber"));
 				userInfo.setPassword(params.get("password"));
 				userInfo.setUserId(userInfoObj.getString("userId"));
 				userInfo.setNickName(userInfoObj.getString("nickName"));

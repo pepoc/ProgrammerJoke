@@ -6,11 +6,11 @@
     android:orientation="vertical" >
     
     <EditText
-        android:id="@+id/et_phone_number"
+        android:id="@+id/et_account_number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="phone"
-        android:hint="phone number" />
+        android:inputType="textEmailAddress"
+        android:hint="account number" />
     
     <EditText
         android:id="@+id/et_password"

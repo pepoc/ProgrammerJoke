@@ -143,7 +143,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener, O
 						UserInfo info = new UserInfo();
 						info.setUserId(userId);
 						info.setNickName(nickName);
-						info.setPhoneNumber(accountNumber);
+						info.setAccountNumber(accountNumber);
 						info.setPassword(password);
 						UserManager.setCurrentUser(info);
 						
