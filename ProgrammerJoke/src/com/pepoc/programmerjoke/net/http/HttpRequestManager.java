@@ -5,6 +5,7 @@ import java.util.Map;
 import android.content.Context;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response.ErrorListener;
@@ -26,6 +27,16 @@ public class HttpRequestManager {
 	private static HttpRequestManager instance = null;
 	private RequestQueue mRequestQueue;
 	private Context context;
+	
+	/**
+	 * 普通Http请求超时时间，单位：毫秒      默认10000
+	 */
+	private final static int HTTP_REQUEST_TIMEOUT = 10000;
+	
+	/**
+	 * 请求重试次数
+	 */
+	private final static int HTTP_RETRY_TIMES = 1;
 	
 	private HttpRequestManager() {
 		
@@ -96,6 +107,8 @@ public class HttpRequestManager {
 	 */
 	private void sendGetRequest(String url, Listener<String> listener, ErrorListener errorListener) {
 		StringRequest request = new StringRequest(Request.Method.GET, url, listener, errorListener);
+		DefaultRetryPolicy policy = new DefaultRetryPolicy(HTTP_REQUEST_TIMEOUT, HTTP_RETRY_TIMES, 1);
+		request.setRetryPolicy(policy);
 		mRequestQueue.add(request);
 	}
 	
@@ -113,6 +126,8 @@ public class HttpRequestManager {
 				return params;
 			}
 		};
+		DefaultRetryPolicy policy = new DefaultRetryPolicy(HTTP_REQUEST_TIMEOUT, HTTP_RETRY_TIMES, 1);
+		request.setRetryPolicy(policy);
 		mRequestQueue.add(request);
 	}
 	

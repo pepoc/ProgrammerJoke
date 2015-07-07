@@ -6,11 +6,32 @@
     android:orientation="vertical" >
     
     <EditText
-        android:id="@+id/et_phone_number"
+        android:id="@+id/et_account_number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="phone"
-        android:hint="phone number" />
+        android:inputType="textEmailAddress"
+        android:hint="account number" />
+    
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+        
+        <EditText
+            android:id="@+id/et_register_captcha"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:layout_toLeftOf="@+id/btn_get_captcha"
+            android:hint="intput captcha" />
+        
+        <Button
+            android:id="@+id/btn_get_captcha"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="get captcha" />
+        
+    </RelativeLayout>
     
     <EditText
         android:id="@+id/et_password"

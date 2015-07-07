@@ -7,14 +7,18 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnFocusChangeListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.pepoc.programmerjoke.R;
 import com.pepoc.programmerjoke.net.http.HttpRequestManager;
 import com.pepoc.programmerjoke.net.http.HttpRequestManager.OnHttpResponseListener;
+import com.pepoc.programmerjoke.net.http.request.RequestGetEmailCaptcha;
 import com.pepoc.programmerjoke.net.http.request.RequestRegister;
 import com.pepoc.programmerjoke.observer.LoginObservable;
 import com.pepoc.programmerjoke.user.UserInfo;
@@ -23,13 +27,16 @@ import com.pepoc.programmerjoke.utils.Preference;
 
 public class RegisterActivity extends BaseActivity implements OnClickListener, Observer {
 
-	private EditText etPhoneNumber;
+	private EditText etAccountNumber;
 	private EditText etPassword;
 	private EditText etNickName;
 	private Button btnRegister;
-	private String phoneNumber;
+	private String accountNumber;
+	private String registerCaptcha;
 	private String password;
 	private String nickName;
+	private EditText etRegisterCaptcha;
+	private Button btnGetCaptcha;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +52,9 @@ public class RegisterActivity extends BaseActivity implements OnClickListener, O
 	@Override
 	public void init() {
 		super.init();
-		etPhoneNumber = (EditText) findViewById(R.id.et_phone_number);
+		etAccountNumber = (EditText) findViewById(R.id.et_account_number);
+		etRegisterCaptcha = (EditText) findViewById(R.id.et_register_captcha);
+		btnGetCaptcha = (Button) findViewById(R.id.btn_get_captcha);
 		etPassword = (EditText) findViewById(R.id.et_password);
 		etNickName = (EditText) findViewById(R.id.et_nick_name);
 		btnRegister = (Button) findViewById(R.id.btn_register);
@@ -55,12 +64,28 @@ public class RegisterActivity extends BaseActivity implements OnClickListener, O
 	public void setListener() {
 		super.setListener();
 		
+		btnGetCaptcha.setOnClickListener(this);
 		btnRegister.setOnClickListener(this);
+		
+		etAccountNumber.setOnFocusChangeListener(new OnFocusChangeListener() {
+			
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (etAccountNumber.hasFocus()) {
+					log.info("哈哈   拿到焦点了");
+				} else {
+					log.info("焦点没了");
+				}
+			}
+		});
 	}
 	
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
+		case R.id.btn_get_captcha:
+			getEmailCaptcha();
+			break;
 		case R.id.btn_register:
 			register();
 			break;
@@ -71,10 +96,40 @@ public class RegisterActivity extends BaseActivity implements OnClickListener, O
 		
 	}
 	
+	/**
+	 * 获取邮件验证码
+	 */
+	private void getEmailCaptcha() {
+		accountNumber = etAccountNumber.getText().toString();
+		RequestGetEmailCaptcha requestGetEmailCaptcha = new RequestGetEmailCaptcha(new OnHttpResponseListener() {
+			
+			@Override
+			public void onHttpResponse(Object result) {
+				
+			}
+		});
+		
+		requestGetEmailCaptcha.putParam("email", accountNumber);
+		requestGetEmailCaptcha.putParam("type", "0");
+		
+		HttpRequestManager.getInstance().sendRequest(requestGetEmailCaptcha);
+	}
+	
 	private void register() {
-		phoneNumber = etPhoneNumber.getText().toString();
+		accountNumber = etAccountNumber.getText().toString();
+		registerCaptcha = etRegisterCaptcha.getText().toString();
 		password = etPassword.getText().toString();
 		nickName = etNickName.getText().toString();
+		if (TextUtils.isEmpty(accountNumber)) {
+			Toast.makeText(context, "Account Number null", Toast.LENGTH_SHORT).show();
+			return ;
+		} else if (TextUtils.isEmpty(registerCaptcha)) {
+			
+		} else if (TextUtils.isEmpty(password)) {
+			
+		} else if (TextUtils.isEmpty(nickName)) {
+			
+		}
 		RequestRegister requestRegister = new RequestRegister(new OnHttpResponseListener() {
 			
 			@Override
@@ -88,7 +143,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener, O
 						UserInfo info = new UserInfo();
 						info.setUserId(userId);
 						info.setNickName(nickName);
-						info.setPhoneNumber(phoneNumber);
+						info.setPhoneNumber(accountNumber);
 						info.setPassword(password);
 						UserManager.setCurrentUser(info);
 						
@@ -101,7 +156,8 @@ public class RegisterActivity extends BaseActivity implements OnClickListener, O
 			}
 		});
 		
-		requestRegister.putParam("phone_number", phoneNumber);
+		requestRegister.putParam("accountNumber", accountNumber);
+		requestRegister.putParam("captcha", registerCaptcha);
 		requestRegister.putParam("password", password);
 		requestRegister.putParam("nickName", nickName);
 		
