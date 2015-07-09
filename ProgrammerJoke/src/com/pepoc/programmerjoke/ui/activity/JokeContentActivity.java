@@ -58,6 +58,7 @@ public class JokeContentActivity extends BaseActivity implements OnClickListener
 		super.init();
 		
 		mPullRefreshListView = (PullToRefreshListView) findViewById(R.id.lv_joke_comment_list_refresh);
+		mPullRefreshListView.setPullToRefreshOverScrollEnabled(false);
 		lvJokeComment = mPullRefreshListView.getRefreshableView();
 		headerJokeContent = View.inflate(context, R.layout.header_joke_content, null);
 		lvJokeComment.addHeaderView(headerJokeContent);

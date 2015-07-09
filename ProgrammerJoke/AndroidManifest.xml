@@ -40,6 +40,8 @@
         
         <activity android:name="com.pepoc.programmerjoke.ui.activity.ClipImageActivity"></activity>
         
+        <activity android:name="com.pepoc.programmerjoke.ui.activity.WriteJokeActivity"></activity>
+        
     </application>
 
 </manifest>

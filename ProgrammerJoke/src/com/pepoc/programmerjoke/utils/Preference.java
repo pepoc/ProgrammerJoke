@@ -9,7 +9,7 @@ import com.pepoc.programmerjoke.PApplication;
 public class Preference {
 	
 	private static final SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(PApplication.getInstance());
-	private static final String ACCOUNT_NUMBER = "phone_number";
+	private static final String ACCOUNT_NUMBER = "account_number";
 	private static final String PASSWORD = "password";
 	private static final String USER_ID = "user_id";
 	private static final String IS_LOGIN = "is_login";

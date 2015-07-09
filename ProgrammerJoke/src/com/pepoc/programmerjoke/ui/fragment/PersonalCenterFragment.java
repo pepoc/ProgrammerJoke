@@ -78,10 +78,7 @@ public class PersonalCenterFragment extends BaseFragment implements OnClickListe
 		tvNickName = (TextView) findViewById(R.id.tv_nick_name);
 		btnLogout = (Button) findViewById(R.id.btn_logout);
 		
-		// 判断一下登录状态
-		if (Preference.isLogin()) {
-			setLoginStatus(true);
-		}
+		setLoginStatus(Preference.isLogin());
 	}
 	
 	@Override
@@ -161,14 +158,14 @@ public class PersonalCenterFragment extends BaseFragment implements OnClickListe
 			} else {
 				PImageLoader.getInstance().displayImage(currentUser.getAvatar(), ivAvatar);
 			}
+			btnLogout.setVisibility(View.VISIBLE);
 		} else {
 			llPersonalInfo.setVisibility(View.GONE);
 			llLoginOrRegister.setVisibility(View.VISIBLE);
 			
 			UserManager.setCurrentUser(null);
 			Preference.saveIsLogin(false);
-			Preference.saveAccountNumber(null);
-			Preference.savePassword(null);
+			btnLogout.setVisibility(View.GONE);
 		}
 	}
 	

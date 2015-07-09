@@ -101,6 +101,9 @@ public class RegisterActivity extends BaseActivity implements OnClickListener, O
 	 */
 	private void getEmailCaptcha() {
 		accountNumber = etAccountNumber.getText().toString();
+		if (TextUtils.isEmpty(accountNumber)) {
+			return ;
+		}
 		RequestGetEmailCaptcha requestGetEmailCaptcha = new RequestGetEmailCaptcha(new OnHttpResponseListener() {
 			
 			@Override

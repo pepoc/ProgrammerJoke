@@ -23,7 +23,7 @@ import com.pepoc.programmerjoke.observer.LoginObservable;
 import com.pepoc.programmerjoke.ui.fragment.BaseFragment;
 import com.pepoc.programmerjoke.ui.fragment.ListContentFragment;
 import com.pepoc.programmerjoke.ui.fragment.PersonalCenterFragment;
-import com.pepoc.programmerjoke.ui.fragment.WriteJokeFragment;
+import com.pepoc.programmerjoke.ui.fragment.MoreFragment;
 import com.pepoc.programmerjoke.user.UserManager;
 import com.pepoc.programmerjoke.utils.Preference;
 
@@ -56,7 +56,7 @@ public class MainActivity extends BaseFragmentActivity implements OnClickListene
 		titles.put("tag3", R.string.fragment_personal_center);
 		
 		fragmentMaps.put("tag1", ListContentFragment.class);
-		fragmentMaps.put("tag2", WriteJokeFragment.class);
+		fragmentMaps.put("tag2", MoreFragment.class);
 		fragmentMaps.put("tag3", PersonalCenterFragment.class);
 		
 		tabHostMain = (FragmentTabHost) findViewById(android.R.id.tabhost);
@@ -98,7 +98,7 @@ public class MainActivity extends BaseFragmentActivity implements OnClickListene
 	private void autoLogin() {
 		final String accountNumber = Preference.getAccountNumber();
 		final String password = Preference.getPassword();
-		if (TextUtils.isEmpty(accountNumber) || TextUtils.isEmpty(password)) {
+		if (!Preference.isLogin() || TextUtils.isEmpty(accountNumber) || TextUtils.isEmpty(password)) {
 			return ;
 		}
 		

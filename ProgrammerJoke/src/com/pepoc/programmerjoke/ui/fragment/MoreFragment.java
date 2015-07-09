@@ -18,7 +18,7 @@ import com.pepoc.programmerjoke.user.UserManager;
  * @author yangchen
  *
  */
-public class WriteJokeFragment extends BaseFragment {
+public class MoreFragment extends BaseFragment {
 	
 	private EditText etJokeContent;
 	private Button btnSubmit;
@@ -26,7 +26,7 @@ public class WriteJokeFragment extends BaseFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.fragment_write_joke);
+		setContentView(R.layout.activity_write_joke);
 	}
 	
 	@Override
@@ -44,6 +44,10 @@ public class WriteJokeFragment extends BaseFragment {
 			
 			@Override
 			public void onClick(View v) {
+				if (null == UserManager.getCurrentUser()) {
+					Toast.makeText(context, "not login", Toast.LENGTH_SHORT).show();
+					return ;
+				}
 				String content = etJokeContent.getText().toString();
 				addJoke(content, UserManager.getCurrentUser().getUserId());
 			}

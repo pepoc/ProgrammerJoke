@@ -34,6 +34,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener, Obse
 		setContentView(R.layout.activity_login);
 		
 		LoginObservable.getInstance().addObserver(this);
+		
 		init();
 		setListener();
 	}
@@ -46,11 +47,11 @@ public class LoginActivity extends BaseActivity implements OnClickListener, Obse
 		etPassword = (EditText) findViewById(R.id.et_password);
 		btnLogin = (Button) findViewById(R.id.btn_login);
 		
-		String phoneNumber = Preference.getAccountNumber();
+		String accountNumber = Preference.getAccountNumber();
 		String password = Preference.getPassword();
 		
-		if (!TextUtils.isEmpty(phoneNumber)) {
-			etAccountNumber.setText(phoneNumber);
+		if (!TextUtils.isEmpty(accountNumber)) {
+			etAccountNumber.setText(accountNumber);
 		}
 		if (!TextUtils.isEmpty(password)) {
 			etPassword.setText(password);
