@@ -11,10 +11,10 @@ import com.pepoc.programmerjoke.data.bean.JokeContent;
 import com.pepoc.programmerjoke.net.http.HttpRequest;
 import com.pepoc.programmerjoke.net.http.HttpRequestManager.OnHttpResponseListener;
 
-public class RequestListContent extends HttpRequest {
+public class RequestGetCollectJokes extends HttpRequest {
 	
-	public RequestListContent(OnHttpResponseListener onHttpResponseListener) {
-		this.URL = "getjokes.php";
+	public RequestGetCollectJokes(OnHttpResponseListener onHttpResponseListener) {
+		this.URL = "getcollectjokes.php";
 		this.onHttpResponseListener = onHttpResponseListener;
 	}
 

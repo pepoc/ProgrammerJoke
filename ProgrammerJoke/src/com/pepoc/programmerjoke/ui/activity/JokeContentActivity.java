@@ -21,6 +21,7 @@ import com.pepoc.programmerjoke.data.bean.JokeContent;
 import com.pepoc.programmerjoke.net.PImageLoader;
 import com.pepoc.programmerjoke.net.http.HttpRequestManager;
 import com.pepoc.programmerjoke.net.http.HttpRequestManager.OnHttpResponseListener;
+import com.pepoc.programmerjoke.net.http.request.RequestCollectJoke;
 import com.pepoc.programmerjoke.net.http.request.RequestComment;
 import com.pepoc.programmerjoke.net.http.request.RequestGetComment;
 import com.pepoc.programmerjoke.ui.adapter.JokeContentAdapter;
@@ -39,6 +40,7 @@ public class JokeContentActivity extends BaseActivity implements OnClickListener
 	private EditText etJokeComment;
 	private Button btnSendComment;
 	private JokeContentAdapter jokeContentAdapter;
+	private Button btnCollectJoke;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +70,7 @@ public class JokeContentActivity extends BaseActivity implements OnClickListener
 		ivUserAvatar = (ImageView) headerJokeContent.findViewById(R.id.iv_user_avatar);
 		tvUserName = (TextView) headerJokeContent.findViewById(R.id.tv_user_name);
 		tvContent = (TextView) headerJokeContent.findViewById(R.id.tv_content);
+		btnCollectJoke = (Button) headerJokeContent.findViewById(R.id.btn_collect_joke);
 		etJokeComment = (EditText) findViewById(R.id.et_joke_comment);
 		btnSendComment = (Button) findViewById(R.id.btn_send_comment);
 		
@@ -83,6 +86,7 @@ public class JokeContentActivity extends BaseActivity implements OnClickListener
 		super.setListener();
 		
 		btnSendComment.setOnClickListener(this);
+		btnCollectJoke.setOnClickListener(this);
 	}
 	
 	@Override
@@ -100,6 +104,9 @@ public class JokeContentActivity extends BaseActivity implements OnClickListener
 				Toast.makeText(context, "登录后才能评论", Toast.LENGTH_SHORT).show();
 			}
 			break;
+		case R.id.btn_collect_joke:
+			collectJoke();
+			break;
 
 		default:
 			break;
@@ -110,7 +117,7 @@ public class JokeContentActivity extends BaseActivity implements OnClickListener
 	 * 发送评论
 	 */
 	private void comment(String commentContent) {
-		RequestComment requestComment = new RequestComment(new OnHttpResponseListener() {
+		RequestComment request = new RequestComment(new OnHttpResponseListener() {
 			
 			@Override
 			public void onHttpResponse(Object result) {
@@ -124,18 +131,18 @@ public class JokeContentActivity extends BaseActivity implements OnClickListener
 			}
 		});
 		
-		requestComment.putParam("content", commentContent);
-		requestComment.putParam("jokeId", jokeContent.getJokeId());
-		requestComment.putParam("userId", UserManager.getCurrentUser().getUserId());
+		request.putParam("content", commentContent);
+		request.putParam("jokeId", jokeContent.getJokeId());
+		request.putParam("userId", UserManager.getCurrentUser().getUserId());
 		
-		HttpRequestManager.getInstance().sendRequest(requestComment);
+		HttpRequestManager.getInstance().sendRequest(request);
 	}
 	
 	/**
 	 * 获取评论
 	 */
 	private void getComment() {
-		RequestGetComment requestGetComment = new RequestGetComment(new OnHttpResponseListener() {
+		RequestGetComment request = new RequestGetComment(new OnHttpResponseListener() {
 			
 			@Override
 			public void onHttpResponse(Object result) {
@@ -145,9 +152,23 @@ public class JokeContentActivity extends BaseActivity implements OnClickListener
 			}
 		});
 		
-		requestGetComment.putParam("jokeId", jokeContent.getJokeId());
+		request.putParam("jokeId", jokeContent.getJokeId());
 		
-		HttpRequestManager.getInstance().sendRequest(requestGetComment);
+		HttpRequestManager.getInstance().sendRequest(request);
+	}
+	
+	private void collectJoke() {
+		RequestCollectJoke request = new RequestCollectJoke(new OnHttpResponseListener() {
+			
+			@Override
+			public void onHttpResponse(Object result) {
+				
+			}
+		});
+		
+		request.putParam("jokeId", jokeContent.getJokeId());
+		request.putParam("userId", UserManager.getCurrentUser().getUserId());
+		HttpRequestManager.getInstance().sendRequest(request);
 	}
 	
 }

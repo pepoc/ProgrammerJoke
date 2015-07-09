@@ -18,7 +18,7 @@ import com.pepoc.programmerjoke.R;
 import com.pepoc.programmerjoke.data.bean.JokeContent;
 import com.pepoc.programmerjoke.net.http.HttpRequestManager;
 import com.pepoc.programmerjoke.net.http.HttpRequestManager.OnHttpResponseListener;
-import com.pepoc.programmerjoke.net.http.request.RequestListContent;
+import com.pepoc.programmerjoke.net.http.request.RequestGetJokes;
 import com.pepoc.programmerjoke.ui.activity.JokeContentActivity;
 import com.pepoc.programmerjoke.ui.adapter.ListContentAdapter;
 
@@ -105,7 +105,7 @@ public class ListContentFragment extends BaseFragment implements OnItemClickList
 			page++;
 		}
 		
-		RequestListContent request = new RequestListContent(new OnHttpResponseListener() {
+		RequestGetJokes request = new RequestGetJokes(new OnHttpResponseListener() {
 			
 			@Override
 			public void onHttpResponse(Object result) {
