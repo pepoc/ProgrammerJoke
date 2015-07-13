@@ -32,11 +32,23 @@
         android:layout_marginTop="10dip"
         android:lineSpacingExtra="5sp"
         android:textSize="18sp" />
-    
-    <Button
-        android:id="@+id/btn_collect_joke"
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="collect" />
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/btn_collect_joke"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="collect" />
+
+        <Button
+            android:id="@+id/btn_like_joke"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="like" />
+    </LinearLayout>
 
 </LinearLayout>

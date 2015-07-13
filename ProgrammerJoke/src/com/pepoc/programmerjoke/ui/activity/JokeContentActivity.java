@@ -24,6 +24,7 @@ import com.pepoc.programmerjoke.net.http.HttpRequestManager.OnHttpResponseListen
 import com.pepoc.programmerjoke.net.http.request.RequestCollectJoke;
 import com.pepoc.programmerjoke.net.http.request.RequestComment;
 import com.pepoc.programmerjoke.net.http.request.RequestGetComment;
+import com.pepoc.programmerjoke.net.http.request.RequestLikeJoke;
 import com.pepoc.programmerjoke.ui.adapter.JokeContentAdapter;
 import com.pepoc.programmerjoke.user.UserManager;
 import com.pepoc.programmerjoke.utils.Preference;
@@ -40,7 +41,7 @@ public class JokeContentActivity extends BaseActivity implements OnClickListener
 	private EditText etJokeComment;
 	private Button btnSendComment;
 	private JokeContentAdapter jokeContentAdapter;
-	private Button btnCollectJoke;
+	private Button btnCollectJoke, btnLikeJoke;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +72,7 @@ public class JokeContentActivity extends BaseActivity implements OnClickListener
 		tvUserName = (TextView) headerJokeContent.findViewById(R.id.tv_user_name);
 		tvContent = (TextView) headerJokeContent.findViewById(R.id.tv_content);
 		btnCollectJoke = (Button) headerJokeContent.findViewById(R.id.btn_collect_joke);
+		btnLikeJoke = (Button) headerJokeContent.findViewById(R.id.btn_like_joke);
 		etJokeComment = (EditText) findViewById(R.id.et_joke_comment);
 		btnSendComment = (Button) findViewById(R.id.btn_send_comment);
 		
@@ -87,6 +89,7 @@ public class JokeContentActivity extends BaseActivity implements OnClickListener
 		
 		btnSendComment.setOnClickListener(this);
 		btnCollectJoke.setOnClickListener(this);
+		btnLikeJoke.setOnClickListener(this);
 	}
 	
 	@Override
@@ -106,6 +109,9 @@ public class JokeContentActivity extends BaseActivity implements OnClickListener
 			break;
 		case R.id.btn_collect_joke:
 			collectJoke();
+			break;
+		case R.id.btn_like_joke:
+			likeJoke();
 			break;
 
 		default:
@@ -159,6 +165,20 @@ public class JokeContentActivity extends BaseActivity implements OnClickListener
 	
 	private void collectJoke() {
 		RequestCollectJoke request = new RequestCollectJoke(new OnHttpResponseListener() {
+			
+			@Override
+			public void onHttpResponse(Object result) {
+				
+			}
+		});
+		
+		request.putParam("jokeId", jokeContent.getJokeId());
+		request.putParam("userId", UserManager.getCurrentUser().getUserId());
+		HttpRequestManager.getInstance().sendRequest(request);
+	}
+	
+	private void likeJoke() {
+		RequestLikeJoke request = new RequestLikeJoke(new OnHttpResponseListener() {
 			
 			@Override
 			public void onHttpResponse(Object result) {
