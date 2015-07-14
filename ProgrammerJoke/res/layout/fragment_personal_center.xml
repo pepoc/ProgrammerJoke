@@ -34,7 +34,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/ll_collect"
+            android:id="@+id/ll_collected"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dip"
@@ -43,13 +43,13 @@
             android:padding="20dip" >
 
             <ImageView
-                android:id="@+id/iv_collect"
+                android:id="@+id/iv_collected"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/ic_launcher" />
 
             <TextView
-                android:id="@+id/tv_collect"
+                android:id="@+id/tv_collected"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"

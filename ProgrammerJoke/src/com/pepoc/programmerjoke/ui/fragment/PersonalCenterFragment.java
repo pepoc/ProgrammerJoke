@@ -30,7 +30,9 @@ import com.pepoc.programmerjoke.net.http.request.RequestUpToken;
 import com.pepoc.programmerjoke.net.http.request.RequestUpdateUserInfo;
 import com.pepoc.programmerjoke.observer.LoginObservable;
 import com.pepoc.programmerjoke.ui.activity.ClipImageActivity;
+import com.pepoc.programmerjoke.ui.activity.CollectedJokeActivity;
 import com.pepoc.programmerjoke.ui.activity.LoginActivity;
+import com.pepoc.programmerjoke.ui.activity.PublishedJokeActivity;
 import com.pepoc.programmerjoke.ui.activity.RegisterActivity;
 import com.pepoc.programmerjoke.ui.activity.Setting;
 import com.pepoc.programmerjoke.user.UserInfo;
@@ -57,6 +59,8 @@ public class PersonalCenterFragment extends BaseFragment implements OnClickListe
 	private String key;
 	private String uploadToken;
 	private TextView tvNickName;
+	private View llCollected;
+	private View llPublished;
 	private View llSetting;
 	
 	@Override
@@ -77,6 +81,8 @@ public class PersonalCenterFragment extends BaseFragment implements OnClickListe
 		btnRegister = (Button) findViewById(R.id.btn_register);
 		ivAvatar = (ImageView) findViewById(R.id.iv_avatar);
 		tvNickName = (TextView) findViewById(R.id.tv_nick_name);
+		llCollected = findViewById(R.id.ll_collected);
+		llPublished = findViewById(R.id.ll_published);
 		llSetting = findViewById(R.id.ll_setting);
 		
 		setLoginStatus(Preference.isLogin());
@@ -88,6 +94,8 @@ public class PersonalCenterFragment extends BaseFragment implements OnClickListe
 		btnLogin.setOnClickListener(this);
 		btnRegister.setOnClickListener(this);
 		ivAvatar.setOnClickListener(this);
+		llCollected.setOnClickListener(this);
+		llPublished.setOnClickListener(this);
 		llSetting.setOnClickListener(this);
 	}
 	
@@ -104,6 +112,14 @@ public class PersonalCenterFragment extends BaseFragment implements OnClickListe
 			break;
 		case R.id.iv_avatar:
 			getHeaderFromGallery();
+			break;
+		case R.id.ll_collected:
+			Intent collectedIntent = new Intent(context, CollectedJokeActivity.class);
+			startActivity(collectedIntent);
+			break;
+		case R.id.ll_published:
+			Intent publishedIntent = new Intent(context, PublishedJokeActivity.class);
+			startActivity(publishedIntent);
 			break;
 		case R.id.ll_setting:
 			Intent settingIntent = new Intent(context, Setting.class);
