@@ -3,17 +3,16 @@ package com.pepoc.programmerjoke.ui.activity;
 import java.util.HashMap;
 import java.util.Map;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTabHost;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
-import android.widget.Toast;
 import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.pepoc.programmerjoke.R;
 import com.pepoc.programmerjoke.net.http.HttpRequestManager;
@@ -22,9 +21,8 @@ import com.pepoc.programmerjoke.net.http.request.RequestLogin;
 import com.pepoc.programmerjoke.observer.LoginObservable;
 import com.pepoc.programmerjoke.ui.fragment.BaseFragment;
 import com.pepoc.programmerjoke.ui.fragment.ListContentFragment;
-import com.pepoc.programmerjoke.ui.fragment.PersonalCenterFragment;
 import com.pepoc.programmerjoke.ui.fragment.MoreFragment;
-import com.pepoc.programmerjoke.user.UserManager;
+import com.pepoc.programmerjoke.ui.fragment.PersonalCenterFragment;
 import com.pepoc.programmerjoke.utils.Preference;
 
 public class MainActivity extends BaseFragmentActivity implements OnClickListener {
@@ -52,7 +50,7 @@ public class MainActivity extends BaseFragmentActivity implements OnClickListene
 		tvMainFragmentTitle = (TextView) findViewById(R.id.tv_main_fragment_title);
 		
 		titles.put("tag1", R.string.fragment_list_content_title);
-		titles.put("tag2", R.string.fragment_write_joke_title);
+		titles.put("tag2", R.string.fragment_more);
 		titles.put("tag3", R.string.fragment_personal_center);
 		
 		fragmentMaps.put("tag1", ListContentFragment.class);

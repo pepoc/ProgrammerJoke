@@ -7,8 +7,8 @@
     <RelativeLayout
         android:id="@+id/rl_title"
         android:layout_width="match_parent"
-        android:background="@android:color/darker_gray"
-        android:layout_height="40dip" >
+        android:background="#EF9D2E"
+        android:layout_height="50dip" >
         
         <TextView
             android:id="@+id/tv_main_fragment_title"
@@ -16,7 +16,8 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="@string/fragment_list_content_title"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:textColor="@android:color/white" />
         
     </RelativeLayout>
 
@@ -36,6 +37,11 @@
                 android:layout_height="match_parent"
                 android:layout_above="@android:id/tabs" />
 
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dip"
+                android:background="#D4D8D5"
+                android:layout_above="@android:id/tabs" />
             <TabWidget
                 android:id="@android:id/tabs"
                 android:layout_width="match_parent"

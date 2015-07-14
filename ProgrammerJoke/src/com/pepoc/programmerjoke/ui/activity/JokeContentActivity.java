@@ -14,7 +14,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.pepoc.programmerjoke.R;
 import com.pepoc.programmerjoke.data.bean.JokeComment;
 import com.pepoc.programmerjoke.data.bean.JokeContent;
@@ -35,7 +34,6 @@ public class JokeContentActivity extends BaseActivity implements OnClickListener
 	private ImageView ivUserAvatar;
 	private TextView tvUserName, tvContent;
 	private JokeContent jokeContent;
-	private PullToRefreshListView mPullRefreshListView;
 	private ListView lvJokeComment;
 	private View headerJokeContent;
 	private EditText etJokeComment;
@@ -60,9 +58,7 @@ public class JokeContentActivity extends BaseActivity implements OnClickListener
 	public void init() {
 		super.init();
 		
-		mPullRefreshListView = (PullToRefreshListView) findViewById(R.id.lv_joke_comment_list_refresh);
-		mPullRefreshListView.setPullToRefreshOverScrollEnabled(false);
-		lvJokeComment = mPullRefreshListView.getRefreshableView();
+		lvJokeComment = (ListView) findViewById(R.id.lv_joke_comment);
 		headerJokeContent = View.inflate(context, R.layout.header_joke_content, null);
 		lvJokeComment.addHeaderView(headerJokeContent);
 		jokeContentAdapter = new JokeContentAdapter(context);

@@ -4,8 +4,10 @@ import java.util.List;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
@@ -27,28 +29,16 @@ import com.pepoc.programmerjoke.ui.adapter.ListContentAdapter;
  * @author yangchen
  *
  */
-public class ListContentFragment extends BaseFragment implements OnItemClickListener, OnRefreshListener2<ListView> {
+public class ListContentFragment extends BaseFragment implements OnClickListener, OnItemClickListener, OnRefreshListener2<ListView>, OnScrollListener {
 	
 	private PullToRefreshListView mPullRefreshListView;
 	private ListView lvContentList;
 	private ListContentAdapter adapter;
 	private int page = 1;
+	private View footerView;
 	
 	/** 是否还有更多数据 */
 	private boolean isHasMoreData = true;
-	
-	private Handler handler = new Handler() {
-		public void handleMessage(android.os.Message msg) {
-			switch (msg.what) {
-			case 1000:
-				mPullRefreshListView.onRefreshComplete();
-				break;
-
-			default:
-				break;
-			}
-		}
-	};
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -61,14 +51,17 @@ public class ListContentFragment extends BaseFragment implements OnItemClickList
 		super.init();
 		
 		mPullRefreshListView = (PullToRefreshListView) findViewById(R.id.lv_content_list_refresh);
-		mPullRefreshListView.getLoadingLayoutProxy(false, true).setPullLabel("lalala");
-		mPullRefreshListView.getLoadingLayoutProxy(false, true).setRefreshingLabel("hahaha");
-		mPullRefreshListView.getLoadingLayoutProxy(false, true).setReleaseLabel("heihei");
 		mPullRefreshListView.setPullToRefreshOverScrollEnabled(false);
 		lvContentList = mPullRefreshListView.getRefreshableView();
 		mPullRefreshListView.setOnRefreshListener(this);
 		adapter = new ListContentAdapter(context);
 		lvContentList.setAdapter(adapter);
+		
+		footerView = View.inflate(context, R.layout.footer_view, null);
+		footerView.setVisibility(View.GONE);
+		View ivProgressLoad = footerView.findViewById(R.id.iv_progress_load);
+		ivProgressLoad.setOnClickListener(this);
+		lvContentList.addFooterView(footerView, null, false);
 		
 		getData(true);
 	}
@@ -78,6 +71,21 @@ public class ListContentFragment extends BaseFragment implements OnItemClickList
 		super.setListener();
 		
 		lvContentList.setOnItemClickListener(this);
+		footerView.setOnClickListener(this);
+		
+		lvContentList.setOnScrollListener(this);
+	}
+	
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.iv_progress_load:
+			Toast.makeText(context, "lalala", Toast.LENGTH_SHORT).show();
+			break;
+
+		default:
+			break;
+		}
 	}
 	
 	@Override
@@ -98,8 +106,7 @@ public class ListContentFragment extends BaseFragment implements OnItemClickList
 			isHasMoreData = true;
 		} else {
 			if (!isHasMoreData) {
-				Toast.makeText(context, "没有更多的数据了", Toast.LENGTH_SHORT).show();
-				handler.sendEmptyMessage(1000);
+//				Toast.makeText(context, "没有更多的数据了", Toast.LENGTH_SHORT).show();
 				return ;
 			}
 			page++;
@@ -119,6 +126,7 @@ public class ListContentFragment extends BaseFragment implements OnItemClickList
 				adapter.setDatas(datas);
 				adapter.notifyDataSetChanged();
 				mPullRefreshListView.onRefreshComplete();
+				footerView.setVisibility(View.VISIBLE);
 			}
 		});
 		
@@ -135,6 +143,20 @@ public class ListContentFragment extends BaseFragment implements OnItemClickList
 	@Override
 	public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
 		getData(false);
+	}
+
+	@Override
+	public void onScrollStateChanged(AbsListView view, int scrollState) {
+		if (scrollState == OnScrollListener.SCROLL_STATE_IDLE) {
+			if (view.getLastVisiblePosition() == view.getCount() - 1) {
+				getData(false);
+			}
+		}
+	}
+
+	@Override
+	public void onScroll(AbsListView view, int firstVisibleItem,
+			int visibleItemCount, int totalItemCount) {
 	}
 
 }

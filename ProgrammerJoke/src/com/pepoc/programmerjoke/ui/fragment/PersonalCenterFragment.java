@@ -32,6 +32,7 @@ import com.pepoc.programmerjoke.observer.LoginObservable;
 import com.pepoc.programmerjoke.ui.activity.ClipImageActivity;
 import com.pepoc.programmerjoke.ui.activity.LoginActivity;
 import com.pepoc.programmerjoke.ui.activity.RegisterActivity;
+import com.pepoc.programmerjoke.ui.activity.Setting;
 import com.pepoc.programmerjoke.user.UserInfo;
 import com.pepoc.programmerjoke.user.UserManager;
 import com.pepoc.programmerjoke.utils.Preference;
@@ -55,8 +56,8 @@ public class PersonalCenterFragment extends BaseFragment implements OnClickListe
 	private String picturePath;
 	private String key;
 	private String uploadToken;
-	private Button btnLogout;
 	private TextView tvNickName;
+	private View llSetting;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -76,7 +77,7 @@ public class PersonalCenterFragment extends BaseFragment implements OnClickListe
 		btnRegister = (Button) findViewById(R.id.btn_register);
 		ivAvatar = (ImageView) findViewById(R.id.iv_avatar);
 		tvNickName = (TextView) findViewById(R.id.tv_nick_name);
-		btnLogout = (Button) findViewById(R.id.btn_logout);
+		llSetting = findViewById(R.id.ll_setting);
 		
 		setLoginStatus(Preference.isLogin());
 	}
@@ -87,7 +88,7 @@ public class PersonalCenterFragment extends BaseFragment implements OnClickListe
 		btnLogin.setOnClickListener(this);
 		btnRegister.setOnClickListener(this);
 		ivAvatar.setOnClickListener(this);
-		btnLogout.setOnClickListener(this);
+		llSetting.setOnClickListener(this);
 	}
 	
 	@Override
@@ -104,8 +105,9 @@ public class PersonalCenterFragment extends BaseFragment implements OnClickListe
 		case R.id.iv_avatar:
 			getHeaderFromGallery();
 			break;
-		case R.id.btn_logout:
-			setLoginStatus(false);
+		case R.id.ll_setting:
+			Intent settingIntent = new Intent(context, Setting.class);
+			startActivityForResult(settingIntent, Constant.REQUEST_CODE);
 			break;
 
 		default:
@@ -116,7 +118,9 @@ public class PersonalCenterFragment extends BaseFragment implements OnClickListe
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		if (resultCode == Activity.RESULT_OK) {
+		
+		switch (resultCode) {
+		case Activity.RESULT_OK:
 			Uri uri = data.getData();
 			String[] filePathColumns = {MediaStore.Images.Media.DATA};
 			Cursor cursor = context.getContentResolver().query(uri, filePathColumns, null, null, null);
@@ -130,11 +134,19 @@ public class PersonalCenterFragment extends BaseFragment implements OnClickListe
 				startActivityForResult(intent, 11);
 			}
 			cursor.close();
-		} else if (resultCode == Constant.RESULT_OK) {
+			break;
+		case Constant.RESULT_OK:
 			picturePath = data.getStringExtra("filePath");
 			if (!TextUtils.isEmpty(picturePath)) {
 				upLoadAvatar();
 			}
+			break;
+		case Constant.RESULT_LOGOUT_OK:
+			setLoginStatus(false);
+			break;
+
+		default:
+			break;
 		}
 	}
 	
@@ -148,24 +160,19 @@ public class PersonalCenterFragment extends BaseFragment implements OnClickListe
 	 * @param loginStatus true:为登录成功       false:为未登录
 	 */
 	private void setLoginStatus(boolean loginStatus) {
-		if (loginStatus) {
+		UserInfo currentUser = UserManager.getCurrentUser();
+		if (loginStatus && currentUser != null) {
 			llPersonalInfo.setVisibility(View.VISIBLE);
 			llLoginOrRegister.setVisibility(View.GONE);
-			UserInfo currentUser = UserManager.getCurrentUser();
 			tvNickName.setText(currentUser.getNickName());
 			if (TextUtils.isEmpty(currentUser.getAvatar())) {
 				ivAvatar.setImageResource(R.drawable.icon);
 			} else {
 				PImageLoader.getInstance().displayImage(currentUser.getAvatar(), ivAvatar);
 			}
-			btnLogout.setVisibility(View.VISIBLE);
 		} else {
 			llPersonalInfo.setVisibility(View.GONE);
 			llLoginOrRegister.setVisibility(View.VISIBLE);
-			
-			UserManager.setCurrentUser(null);
-			Preference.saveIsLogin(false);
-			btnLogout.setVisibility(View.GONE);
 		}
 	}
 	

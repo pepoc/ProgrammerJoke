@@ -7,7 +7,9 @@
     <EditText
         android:id="@+id/et_joke_content"
         android:layout_width="match_parent"
-        android:layout_height="400dip" />
+        android:layout_height="wrap_content"
+        android:lines="20"
+        android:gravity="left" />
     
     <Button
         android:id="@+id/btn_submit"

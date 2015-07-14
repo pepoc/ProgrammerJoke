@@ -8,7 +8,6 @@
         android:id="@+id/lv_content_list_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        ptr:ptrHeaderTextColor="@android:color/darker_gray"
-        ptr:ptrMode="both" />
+        ptr:ptrHeaderTextColor="@android:color/darker_gray" />
 
 </RelativeLayout>

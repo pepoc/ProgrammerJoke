@@ -58,6 +58,7 @@ public class ListContentAdapter extends BaseAdapter {
 			vh.tvUserName = (TextView) convertView.findViewById(R.id.tv_user_name);
 			vh.tvContent = (TextView) convertView.findViewById(R.id.tv_content);
 			vh.tvCreateTime = (TextView) convertView.findViewById(R.id.tv_create_time);
+			vh.tvJokeId = (TextView) convertView.findViewById(R.id.tv_joke_id);
 			convertView.setTag(vh);
 		}
 		ViewHolder vh = (ViewHolder) convertView.getTag();
@@ -65,6 +66,7 @@ public class ListContentAdapter extends BaseAdapter {
 		vh.tvUserName.setText(jokeContent.getUserNickName());
 		vh.tvContent.setText(jokeContent.getContent());
 		vh.tvCreateTime.setText(jokeContent.getCreateTime());
+		vh.tvJokeId.setText(jokeContent.getJokeId());
 		if (TextUtils.isEmpty(jokeContent.getUserAvatar())) {
 			vh.ivUserAvatar.setImageResource(R.drawable.icon);
 		} else {
@@ -78,6 +80,7 @@ public class ListContentAdapter extends BaseAdapter {
 		TextView tvUserName;
 		TextView tvContent;
 		TextView tvCreateTime;
+		TextView tvJokeId;
 	}
 
 }

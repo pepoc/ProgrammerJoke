@@ -40,7 +40,14 @@
         
         <activity android:name="com.pepoc.programmerjoke.ui.activity.ClipImageActivity"></activity>
         
-        <activity android:name="com.pepoc.programmerjoke.ui.activity.WriteJokeActivity"></activity>
+        <activity android:name="com.pepoc.programmerjoke.ui.activity.PublishJokeActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
+        
+        <activity android:name="com.pepoc.programmerjoke.ui.activity.Setting"></activity>
+        
+        <activity android:name="com.pepoc.programmerjoke.ui.activity.CollectedJokeActivity"></activity>
+        
+        <activity android:name="com.pepoc.programmerjoke.ui.activity.PublishedJokeActivity"></activity>
         
     </application>
 

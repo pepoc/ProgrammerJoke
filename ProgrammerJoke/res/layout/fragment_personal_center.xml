@@ -2,14 +2,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/darker_gray" >
+    android:background="#D4D8D5" >
 
     <LinearLayout
         android:id="@+id/ll_personal_info"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:visibility="gone" >
+        android:orientation="vertical" >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -31,6 +30,81 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="10dip"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_collect"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dip"
+            android:background="@android:color/white"
+            android:orientation="horizontal"
+            android:padding="20dip" >
+
+            <ImageView
+                android:id="@+id/iv_collect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_launcher" />
+
+            <TextView
+                android:id="@+id/tv_collect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dip"
+                android:text="收藏的段子"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_published"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dip"
+            android:background="@android:color/white"
+            android:orientation="horizontal"
+            android:padding="20dip" >
+
+            <ImageView
+                android:id="@+id/iv_published"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_launcher" />
+
+            <TextView
+                android:id="@+id/tv_published"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dip"
+                android:text="写过的段子"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_setting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dip"
+            android:background="@android:color/white"
+            android:orientation="horizontal"
+            android:padding="20dip" >
+
+            <ImageView
+                android:id="@+id/iv_setting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_launcher" />
+
+            <TextView
+                android:id="@+id/tv_setting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dip"
+                android:text="设置"
                 android:textSize="20sp" />
         </LinearLayout>
     </LinearLayout>
@@ -55,13 +129,5 @@
             android:layout_marginTop="50dip"
             android:text="register" />
     </RelativeLayout>
-
-    <Button
-        android:id="@+id/btn_logout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:text="logout"
-        android:visibility="gone" />
 
 </RelativeLayout>

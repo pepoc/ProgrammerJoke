@@ -14,7 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class WriteJokeActivity extends BaseActivity {
+public class PublishJokeActivity extends BaseActivity {
 	
 	private EditText etJokeContent;
 	private Button btnSubmit;
@@ -22,7 +22,7 @@ public class WriteJokeActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_write_joke);
+		setContentView(R.layout.activity_publish_joke);
 		
 		init();
 		setListener();

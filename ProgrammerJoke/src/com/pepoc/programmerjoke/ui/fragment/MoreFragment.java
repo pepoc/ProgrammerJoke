@@ -12,7 +12,7 @@ import com.pepoc.programmerjoke.R;
 import com.pepoc.programmerjoke.net.http.HttpRequestManager;
 import com.pepoc.programmerjoke.net.http.HttpRequestManager.OnHttpResponseListener;
 import com.pepoc.programmerjoke.net.http.request.RequestAddJoke;
-import com.pepoc.programmerjoke.ui.activity.WriteJokeActivity;
+import com.pepoc.programmerjoke.ui.activity.PublishJokeActivity;
 import com.pepoc.programmerjoke.user.UserManager;
 
 /**
@@ -48,7 +48,7 @@ public class MoreFragment extends BaseFragment implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.btn_write_joke:
-			Intent intent = new Intent(context, WriteJokeActivity.class);
+			Intent intent = new Intent(context, PublishJokeActivity.class);
 			startActivity(intent);
 			break;
 
