@@ -41,7 +41,7 @@ public class RequestGetComment extends HttpRequest {
 				}
 			}
 		} catch (JSONException e) {
-			log.error("parseResponseResult", e);
+			log.e("parseResponseResult", e);
 		}
 		return jokeComments;
 	}

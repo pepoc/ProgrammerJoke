@@ -60,14 +60,14 @@ public class HttpRequestManager {
 	 */
 	public void sendRequest(final HttpRequest request) {
 		String requestUrl = createGetRequestUrl(request);
-		log.info("Http request url >>>>>>>>>>>>>>> " + requestUrl);
+		log.i("Http request url >>>>>>>>>>>>>>> " + requestUrl);
 		
 		if (HttpRequest.METHOD_GET.equals(request.getRequestMethod())) {
 			sendGetRequest(requestUrl, new Listener<String>() {
 
 				@Override
 				public void onResponse(String response) {
-					log.info("Http response result <<<<<<<<<<<<<<< " + response);
+					log.i("Http response result <<<<<<<<<<<<<<< " + response);
 					Object result = request.parseResponseResult(response);
 					request.getOnHttpResponseListener().onHttpResponse(result);
 				}
@@ -84,7 +84,7 @@ public class HttpRequestManager {
 
 				@Override
 				public void onResponse(String response) {
-					log.info("Http response result <<<<<<<<<<<<<<< " + response);
+					log.i("Http response result <<<<<<<<<<<<<<< " + response);
 					Object result = request.parseResponseResult(response);
 					request.getOnHttpResponseListener().onHttpResponse(result);
 				}

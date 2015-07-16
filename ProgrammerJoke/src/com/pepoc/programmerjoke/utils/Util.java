@@ -38,7 +38,7 @@ public class Util {
 			InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
 			imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
 		} catch (Exception e) {
-			log.error("have no getCurrentFocus", e);
+			log.e("have no getCurrentFocus", e);
 		}
 	}
 	
@@ -65,7 +65,7 @@ public class Util {
 			PackageInfo info = pkgMgr.getPackageInfo(context.getPackageName(), 0);
 			ver = info.versionName;
 		} catch (NameNotFoundException e) {
-			log.error("get Version Name", e);
+			log.e("get Version Name", e);
 		}
 		return ver;
 	}
@@ -83,7 +83,7 @@ public class Util {
 			PackageInfo info = pkgMgr.getPackageInfo(context.getPackageName(), 0);
 			ver = info.versionCode;
 		} catch (NameNotFoundException e) {
-			log.error("get Version Name", e);
+			log.e("get Version Name", e);
 		}
 		return ver + "";
 	}

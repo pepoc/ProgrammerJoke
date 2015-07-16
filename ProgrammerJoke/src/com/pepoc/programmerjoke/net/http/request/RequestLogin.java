@@ -41,7 +41,7 @@ public class RequestLogin extends HttpRequest {
 				return true;
 			}
 		} catch (JSONException e) {
-			log.error("parseResponseResult", e);
+			log.e("parseResponseResult", e);
 		}
 		return false;
 	}

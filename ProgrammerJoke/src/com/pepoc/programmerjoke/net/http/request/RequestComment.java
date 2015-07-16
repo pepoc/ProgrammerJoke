@@ -25,7 +25,7 @@ public class RequestComment extends HttpRequest {
 				return false;
 			}
 		} catch (JSONException e) {
-			log.error("parseResponseResult", e);
+			log.e("parseResponseResult", e);
 		}
 		return result;
 	}

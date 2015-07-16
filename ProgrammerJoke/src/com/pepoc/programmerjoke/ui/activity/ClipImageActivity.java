@@ -70,7 +70,7 @@ public class ClipImageActivity extends BaseActivity implements OnClickListener {
 	@Override
 	public void init() {
 		super.init();
-		log.info("得到的图片的路径是 = " + mPath);
+		log.i("得到的图片的路径是 = " + mPath);
 		mImageView = (CropImageView) findViewById(R.id.gl_modify_avatar_image);
 		mSave = (Button) this.findViewById(R.id.gl_modify_avatar_save);
 		mCancel = (Button) this.findViewById(R.id.gl_modify_avatar_cancel);
@@ -117,7 +117,7 @@ public class ClipImageActivity extends BaseActivity implements OnClickListener {
 			break;
 		case R.id.gl_modify_avatar_save:
 			String filePath = mCrop.saveToLocal(mCrop.cropAndSave());
-			log.info("截取后图片的路径是 = " + filePath);
+			log.i("截取后图片的路径是 = " + filePath);
 			Intent intent = new Intent();
 			intent.putExtra("filePath", filePath);
 			setResult(Constant.RESULT_OK, intent);

@@ -72,9 +72,9 @@ public class RegisterActivity extends BaseActivity implements OnClickListener, O
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
 				if (etAccountNumber.hasFocus()) {
-					log.info("哈哈   拿到焦点了");
+					log.i("哈哈   拿到焦点了");
 				} else {
-					log.info("焦点没了");
+					log.i("焦点没了");
 				}
 			}
 		});
@@ -142,7 +142,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener, O
 					String status = obj.getString("status");
 					if ("1".equals(status)) {
 						String userId = obj.getString("userId");
-						log.info("userId ============ " + userId);
+						log.i("userId ============ " + userId);
 						UserInfo info = new UserInfo();
 						info.setUserId(userId);
 						info.setNickName(nickName);
@@ -154,7 +154,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener, O
 						Preference.saveIsLogin(true);
 					}
 				} catch (JSONException e) {
-					log.error("register", e);
+					log.e("register", e);
 				}
 			}
 		});

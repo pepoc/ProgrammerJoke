@@ -143,7 +143,7 @@ public class PersonalCenterFragment extends BaseFragment implements OnClickListe
 			if (cursor.moveToFirst()) {
 				int columnIndex = cursor.getColumnIndex(filePathColumns[0]);
 				picturePath = cursor.getString(columnIndex);
-				log.info("Picture Path === " + picturePath);
+				log.i("Picture Path === " + picturePath);
 				
 				Intent intent = new Intent(context, ClipImageActivity.class);
 				intent.putExtra("picturePath", picturePath);
@@ -207,7 +207,7 @@ public class PersonalCenterFragment extends BaseFragment implements OnClickListe
 						uploadToken = obj.getString("upToken");
 					}
 				} catch (JSONException e) {
-					log.error("get uptoken", e);
+					log.e("get uptoken", e);
 				}
 				
 				// 七牛上传

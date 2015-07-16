@@ -21,7 +21,7 @@ public class RequestAddJoke extends HttpRequest {
 			String status = obj.getString("status");
 			return status;
 		} catch (JSONException e) {
-			log.error("parseResponseResult", e);
+			log.e("parseResponseResult", e);
 		}
 		return "0";
 	}

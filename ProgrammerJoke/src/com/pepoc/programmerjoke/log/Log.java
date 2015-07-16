@@ -2,23 +2,23 @@ package com.pepoc.programmerjoke.log;
 
 public interface Log {
 	
-	public void verbose(String message, Throwable t);
+	public void v(String message, Throwable t);
 	
-	public void verbose(String message);
+	public void v(String message);
 
-	public void debug(String message, Throwable t);
+	public void d(String message, Throwable t);
 	
-	public void debug(String message);
+	public void d(String message);
 	
-	public void info(String message, Throwable t);
+	public void i(String message, Throwable t);
 	
-	public void info(String message);
+	public void i(String message);
 	
-	public void warn(String message, Throwable t);
+	public void w(String message, Throwable t);
 	
-	public void warn(String message);
+	public void w(String message);
 	
-	public void error(String message, Throwable t);
+	public void e(String message, Throwable t);
 	
-	public void error(String message);
+	public void e(String message);
 }

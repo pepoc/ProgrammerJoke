@@ -9,70 +9,70 @@ public class LogImpl implements Log {
 	}
 
 	@Override
-	public void verbose(String message, Throwable t) {
+	public void v(String message, Throwable t) {
 		if (LogFactory.isDebugEnable) {
 			android.util.Log.v(name, message, t);
 		}
 	}
 
 	@Override
-	public void verbose(String message) {
+	public void v(String message) {
 		if (LogFactory.isDebugEnable) {
 			android.util.Log.v(name, message);
 		}
 	}
 
 	@Override
-	public void debug(String message, Throwable t) {
+	public void d(String message, Throwable t) {
 		if (LogFactory.isDebugEnable) {
 			android.util.Log.d(name, message, t);
 		}
 	}
 
 	@Override
-	public void debug(String message) {
+	public void d(String message) {
 		if (LogFactory.isDebugEnable) {
 			android.util.Log.d(name, message);
 		}
 	}
 
 	@Override
-	public void info(String message, Throwable t) {
+	public void i(String message, Throwable t) {
 		if (LogFactory.isDebugEnable) {
 			android.util.Log.i(name, message, t);
 		}
 	}
 
 	@Override
-	public void info(String message) {
+	public void i(String message) {
 		if (LogFactory.isDebugEnable) {
 			android.util.Log.i(name, message);
 		}
 	}
 
 	@Override
-	public void warn(String message, Throwable t) {
+	public void w(String message, Throwable t) {
 		if (LogFactory.isDebugEnable) {
 			android.util.Log.w(name, message, t);
 		}
 	}
 
 	@Override
-	public void warn(String message) {
+	public void w(String message) {
 		if (LogFactory.isDebugEnable) {
 			android.util.Log.w(name, message);
 		}
 	}
 
 	@Override
-	public void error(String message, Throwable t) {
+	public void e(String message, Throwable t) {
 		if (LogFactory.isDebugEnable) {
 			android.util.Log.e(name, message, t);
 		}
 	}
 
 	@Override
-	public void error(String message) {
+	public void e(String message) {
 		if (LogFactory.isDebugEnable) {
 			android.util.Log.e(name, message);
 		}
