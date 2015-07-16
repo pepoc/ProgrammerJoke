@@ -2,23 +2,23 @@ package com.pepoc.programmerjoke.ui.activity;
 
 import java.util.List;
 
+import android.os.Bundle;
+import android.view.View;
+import android.widget.AbsListView;
+import android.widget.TextView;
+import android.widget.AbsListView.OnScrollListener;
+import android.widget.ListView;
+
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.pepoc.programmerjoke.R;
 import com.pepoc.programmerjoke.data.bean.JokeContent;
 import com.pepoc.programmerjoke.net.http.HttpRequestManager;
 import com.pepoc.programmerjoke.net.http.HttpRequestManager.OnHttpResponseListener;
-import com.pepoc.programmerjoke.net.http.request.RequestGetCollectedJokes;
 import com.pepoc.programmerjoke.net.http.request.RequestGetPublishedJokes;
 import com.pepoc.programmerjoke.ui.adapter.ListContentAdapter;
 import com.pepoc.programmerjoke.user.UserManager;
-
-import android.os.Bundle;
-import android.view.View;
-import android.widget.AbsListView;
-import android.widget.ListView;
-import android.widget.AbsListView.OnScrollListener;
 
 public class PublishedJokeActivity extends BaseActivity implements OnRefreshListener<ListView>, OnScrollListener {
 	
@@ -27,6 +27,7 @@ public class PublishedJokeActivity extends BaseActivity implements OnRefreshList
 	private ListContentAdapter adapter;
 	private int page = 1;
 	private View footerView;
+	private TextView tvMainFragmentTitle;
 	
 	/** 是否还有更多数据 */
 	private boolean isHasMoreData = true;
@@ -44,6 +45,10 @@ public class PublishedJokeActivity extends BaseActivity implements OnRefreshList
 	@Override
 	public void init() {
 		super.init();
+		
+		View publicTitle = findViewById(R.id.public_title);
+		tvMainFragmentTitle = (TextView) publicTitle.findViewById(R.id.tv_main_fragment_title);
+		tvMainFragmentTitle.setText(R.string.activity_published_name);
 		
 		mPullRefreshListView = (PullToRefreshListView) findViewById(R.id.lv_published_list_refresh);
 		mPullRefreshListView.setPullToRefreshOverScrollEnabled(false);

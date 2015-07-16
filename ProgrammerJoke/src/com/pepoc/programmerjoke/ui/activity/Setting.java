@@ -9,10 +9,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class Setting extends BaseActivity implements OnClickListener {
 	
 	private Button btnLogout;
+	private TextView tvMainFragmentTitle;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +29,11 @@ public class Setting extends BaseActivity implements OnClickListener {
 	@Override
 	public void init() {
 		super.init();
+		
+		View publicTitle = findViewById(R.id.public_title);
+		tvMainFragmentTitle = (TextView) publicTitle.findViewById(R.id.tv_main_fragment_title);
+		tvMainFragmentTitle.setText(R.string.activity_setting_name);
+		
 		btnLogout = (Button) findViewById(R.id.btn_logout);
 	}
 	
@@ -43,6 +50,7 @@ public class Setting extends BaseActivity implements OnClickListener {
 			UserManager.setCurrentUser(null);
 			Preference.saveIsLogin(false);
 			setResult(Constant.RESULT_LOGOUT_OK);
+			finish();
 			break;
 
 		default:

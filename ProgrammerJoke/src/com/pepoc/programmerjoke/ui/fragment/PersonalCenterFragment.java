@@ -49,10 +49,6 @@ import com.qiniu.android.storage.UploadManager;
  */
 public class PersonalCenterFragment extends BaseFragment implements OnClickListener, Observer {
 	
-	private View llPersonalInfo;
-	private View llLoginOrRegister;
-	private Button btnLogin;
-	private Button btnRegister;
 	private ImageView ivAvatar;
 	private static final String IMAGE_UNSPECIFIED = "image/*";
 	private String picturePath;
@@ -74,11 +70,6 @@ public class PersonalCenterFragment extends BaseFragment implements OnClickListe
 	@Override
 	public void init() {
 		super.init();
-		
-		llPersonalInfo = findViewById(R.id.ll_personal_info);
-		llLoginOrRegister = findViewById(R.id.ll_login_or_register);
-		btnLogin = (Button) findViewById(R.id.btn_login);
-		btnRegister = (Button) findViewById(R.id.btn_register);
 		ivAvatar = (ImageView) findViewById(R.id.iv_avatar);
 		tvNickName = (TextView) findViewById(R.id.tv_nick_name);
 		llCollected = findViewById(R.id.ll_collected);
@@ -91,8 +82,6 @@ public class PersonalCenterFragment extends BaseFragment implements OnClickListe
 	@Override
 	public void setListener() {
 		super.setListener();
-		btnLogin.setOnClickListener(this);
-		btnRegister.setOnClickListener(this);
 		ivAvatar.setOnClickListener(this);
 		llCollected.setOnClickListener(this);
 		llPublished.setOnClickListener(this);
@@ -101,15 +90,12 @@ public class PersonalCenterFragment extends BaseFragment implements OnClickListe
 	
 	@Override
 	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.btn_login:
+		if (!Preference.isLogin()) {
 			Intent loginIntent = new Intent(context, LoginActivity.class);
 			startActivity(loginIntent);
-			break;
-		case R.id.btn_register:
-			Intent registerIntent = new Intent(context, RegisterActivity.class);
-			startActivity(registerIntent);
-			break;
+			return ;
+		}
+		switch (v.getId()) {
 		case R.id.iv_avatar:
 			getHeaderFromGallery();
 			break;
@@ -178,17 +164,12 @@ public class PersonalCenterFragment extends BaseFragment implements OnClickListe
 	private void setLoginStatus(boolean loginStatus) {
 		UserInfo currentUser = UserManager.getCurrentUser();
 		if (loginStatus && currentUser != null) {
-			llPersonalInfo.setVisibility(View.VISIBLE);
-			llLoginOrRegister.setVisibility(View.GONE);
 			tvNickName.setText(currentUser.getNickName());
 			if (TextUtils.isEmpty(currentUser.getAvatar())) {
 				ivAvatar.setImageResource(R.drawable.icon);
 			} else {
 				PImageLoader.getInstance().displayImage(currentUser.getAvatar(), ivAvatar);
 			}
-		} else {
-			llPersonalInfo.setVisibility(View.GONE);
-			llLoginOrRegister.setVisibility(View.VISIBLE);
 		}
 	}
 	

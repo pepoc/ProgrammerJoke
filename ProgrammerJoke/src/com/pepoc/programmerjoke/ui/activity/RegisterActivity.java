@@ -13,6 +13,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pepoc.programmerjoke.R;
@@ -52,6 +53,10 @@ public class RegisterActivity extends BaseActivity implements OnClickListener, O
 	@Override
 	public void init() {
 		super.init();
+		View publicTitle = findViewById(R.id.public_title);
+		TextView tvMainFragmentTitle = (TextView) publicTitle.findViewById(R.id.tv_main_fragment_title);
+		tvMainFragmentTitle.setText(R.string.activity_register_name);
+		
 		etAccountNumber = (EditText) findViewById(R.id.et_account_number);
 		etRegisterCaptcha = (EditText) findViewById(R.id.et_register_captcha);
 		btnGetCaptcha = (Button) findViewById(R.id.btn_get_captcha);

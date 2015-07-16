@@ -53,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="10dip"
-                android:text="收藏的段子"
+                android:text="@string/activity_collected_name"
                 android:textSize="20sp" />
         </LinearLayout>
 
@@ -78,7 +78,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="10dip"
-                android:text="写过的段子"
+                android:text="@string/activity_published_name"
                 android:textSize="20sp" />
         </LinearLayout>
 
@@ -103,31 +103,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="10dip"
-                android:text="设置"
+                android:text="@string/activity_setting_name"
                 android:textSize="20sp" />
         </LinearLayout>
     </LinearLayout>
-
-    <RelativeLayout
-        android:id="@+id/ll_login_or_register"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"
-        android:gravity="center" >
-
-        <Button
-            android:id="@+id/btn_login"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="login" />
-
-        <Button
-            android:id="@+id/btn_register"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/btn_login"
-            android:layout_marginTop="50dip"
-            android:text="register" />
-    </RelativeLayout>
 
 </RelativeLayout>

@@ -3,6 +3,7 @@ package com.pepoc.programmerjoke.ui.activity;
 import java.util.Observable;
 import java.util.Observer;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.text.TextUtils;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pepoc.programmerjoke.R;
@@ -24,7 +26,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener, Obse
 
 	private EditText etAccountNumber;
 	private EditText etPassword;
-	private Button btnLogin;
+	private Button btnLogin, btnRegister;
 	private String accountNumber, password;
 
 	@Override
@@ -43,9 +45,14 @@ public class LoginActivity extends BaseActivity implements OnClickListener, Obse
 	public void init() {
 		super.init();
 		
+		View publicTitle = findViewById(R.id.public_title);
+		TextView tvMainFragmentTitle = (TextView) publicTitle.findViewById(R.id.tv_main_fragment_title);
+		tvMainFragmentTitle.setText(R.string.activity_login_name);
+		
 		etAccountNumber = (EditText) findViewById(R.id.et_account_number);
 		etPassword = (EditText) findViewById(R.id.et_password);
 		btnLogin = (Button) findViewById(R.id.btn_login);
+		btnRegister = (Button) findViewById(R.id.btn_register);
 		
 		String accountNumber = Preference.getAccountNumber();
 		String password = Preference.getPassword();
@@ -63,6 +70,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener, Obse
 		super.setListener();
 		
 		btnLogin.setOnClickListener(this);
+		btnRegister.setOnClickListener(this);
 	}
 	
 	@Override
@@ -70,6 +78,10 @@ public class LoginActivity extends BaseActivity implements OnClickListener, Obse
 		switch (v.getId()) {
 		case R.id.btn_login:
 			login();
+			break;
+		case R.id.btn_register:
+			Intent registerIntent = new Intent(context, RegisterActivity.class);
+			startActivity(registerIntent);
 			break;
 
 		default:

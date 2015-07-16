@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class PublishJokeActivity extends BaseActivity {
@@ -31,6 +32,10 @@ public class PublishJokeActivity extends BaseActivity {
 	@Override
 	public void init() {
 		super.init();
+		
+		View publicTitle = findViewById(R.id.public_title);
+		TextView tvMainFragmentTitle = (TextView) publicTitle.findViewById(R.id.tv_main_fragment_title);
+		tvMainFragmentTitle.setText(R.string.activity_write_joke_name);
 		
 		etJokeContent = (EditText) findViewById(R.id.et_joke_content);
 		btnSubmit = (Button) findViewById(R.id.btn_submit);

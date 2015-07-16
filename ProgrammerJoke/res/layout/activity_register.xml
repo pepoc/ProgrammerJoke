@@ -2,54 +2,63 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dip"
     android:orientation="vertical" >
-    
-    <EditText
-        android:id="@+id/et_account_number"
+
+    <include
+        android:id="@+id/public_title"
+        layout="@layout/title_view" />
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textEmailAddress"
-        android:hint="account number" />
-    
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-        
+        android:padding="10dip"
+        android:orientation="vertical" >
+
         <EditText
-            android:id="@+id/et_register_captcha"
+            android:id="@+id/et_account_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="number"
-            android:layout_toLeftOf="@+id/btn_get_captcha"
-            android:hint="intput captcha" />
-        
-        <Button
-            android:id="@+id/btn_get_captcha"
-            android:layout_width="wrap_content"
+            android:hint="account number"
+            android:inputType="textEmailAddress" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <EditText
+                android:id="@+id/et_register_captcha"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/btn_get_captcha"
+                android:hint="intput captcha"
+                android:inputType="number" />
+
+            <Button
+                android:id="@+id/btn_get_captcha"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="get captcha" />
+        </RelativeLayout>
+
+        <EditText
+            android:id="@+id/et_password"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="get captcha" />
-        
-    </RelativeLayout>
-    
-    <EditText
-        android:id="@+id/et_password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:hint="password" />
-    
-    <EditText
-        android:id="@+id/et_nick_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="nick name" />
-    
-    <Button
-        android:id="@+id/btn_register"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="register" />
+            android:hint="password"
+            android:inputType="textPassword" />
+
+        <EditText
+            android:id="@+id/et_nick_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="nick name" />
+
+        <Button
+            android:id="@+id/btn_register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="register" />
+    </LinearLayout>
 
 </LinearLayout>

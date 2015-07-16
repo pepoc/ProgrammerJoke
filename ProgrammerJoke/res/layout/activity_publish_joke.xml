@@ -1,23 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dip" >
-    
-    <EditText
-        android:id="@+id/et_joke_content"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/public_title"
+        layout="@layout/title_view" />
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:lines="20"
-        android:gravity="left" />
-    
-    <Button
-        android:id="@+id/btn_submit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dip"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/et_joke_content"
-        android:text="submit" />
+        android:padding="10dip" >
 
-</RelativeLayout>
+        <EditText
+            android:id="@+id/et_joke_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:lines="20" />
+
+        <Button
+            android:id="@+id/btn_submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/et_joke_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dip"
+            android:text="submit" />
+    </RelativeLayout>
+
+</LinearLayout>

@@ -49,8 +49,9 @@ public class MainActivity extends BaseFragmentActivity implements OnClickListene
 	@Override
 	public void init() {
 		super.init();
-		tvMainFragmentTitle = (TextView) findViewById(R.id.tv_main_fragment_title);
-		
+		View publicTitle = findViewById(R.id.public_title);
+		tvMainFragmentTitle = (TextView) publicTitle.findViewById(R.id.tv_main_fragment_title);
+		tvMainFragmentTitle.setText(R.string.fragment_list_content_title);
 		titles.put("tag1", R.string.fragment_list_content_title);
 		titles.put("tag2", R.string.fragment_more);
 		titles.put("tag3", R.string.fragment_personal_center);

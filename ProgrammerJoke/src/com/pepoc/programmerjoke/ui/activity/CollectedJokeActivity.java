@@ -5,6 +5,7 @@ import java.util.List;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AbsListView;
+import android.widget.TextView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.ListView;
 
@@ -26,6 +27,7 @@ public class CollectedJokeActivity extends BaseActivity implements OnRefreshList
 	private ListContentAdapter adapter;
 	private int page = 1;
 	private View footerView;
+	private TextView tvMainFragmentTitle;
 	
 	/** 是否还有更多数据 */
 	private boolean isHasMoreData = true;
@@ -43,6 +45,10 @@ public class CollectedJokeActivity extends BaseActivity implements OnRefreshList
 	@Override
 	public void init() {
 		super.init();
+		
+		View publicTitle = findViewById(R.id.public_title);
+		tvMainFragmentTitle = (TextView) publicTitle.findViewById(R.id.tv_main_fragment_title);
+		tvMainFragmentTitle.setText(R.string.activity_collected_name);
 		
 		mPullRefreshListView = (PullToRefreshListView) findViewById(R.id.lv_collected_list_refresh);
 		mPullRefreshListView.setPullToRefreshOverScrollEnabled(false);
