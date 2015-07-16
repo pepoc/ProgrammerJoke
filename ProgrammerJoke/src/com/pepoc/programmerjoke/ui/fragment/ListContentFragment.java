@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.pepoc.programmerjoke.Config;
 import com.pepoc.programmerjoke.R;
 import com.pepoc.programmerjoke.data.bean.JokeContent;
 import com.pepoc.programmerjoke.manager.WXManager;
@@ -104,8 +105,8 @@ public class ListContentFragment extends BaseFragment implements OnClickListener
 			int position, long id) {
 		List<JokeContent> datas = adapter.getDatas();
 		JokeContent jokeContent = datas.get(position - 1);
-		String url = "pepoc.com/programmerjoke/singlejoke.php?joke_id=" + jokeContent.getJokeId();
-		WXManager.shareUrlToWeChat(context, url, jokeContent.getContent(), jokeContent.getContent(), WXManager.SHARE_MOMENTS);
+		
+		WXManager.shareUrlToWeChat(context, jokeContent.getJokeId(), jokeContent.getContent(), jokeContent.getContent(), WXManager.SHARE_MOMENTS);
 		return true;
 	}
 	

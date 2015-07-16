@@ -26,5 +26,10 @@ public class Config {
 	 * 微信AppID
 	 */
 	public final static String WX_APP_ID = "wxa1b185c7d104a652";
+	
+	/**
+	 * 分享链接
+	 */
+	public final static String SHARE_SINGLE_JOKE_URL = "http://pepoc.com/programmerjoke/singlejoke.php?joke_id=";
 
 }

@@ -30,6 +30,8 @@ public class MainActivity extends BaseFragmentActivity implements OnClickListene
 	private FragmentTabHost tabHostMain;
 	private Map<String, Class<? extends BaseFragment>> fragmentMaps = new HashMap<String, Class<? extends BaseFragment>>();
 	private Map<String, Integer> titles = new HashMap<String, Integer>();
+	private Map<String, Integer> tabIcons = new HashMap<String, Integer>();
+	private Map<String, Integer> tabNames = new HashMap<String, Integer>();
 	private TextView tvMainFragmentTitle;
 
 	@Override
@@ -57,13 +59,24 @@ public class MainActivity extends BaseFragmentActivity implements OnClickListene
 		fragmentMaps.put("tag2", MoreFragment.class);
 		fragmentMaps.put("tag3", PersonalCenterFragment.class);
 		
+		tabIcons.put("tag1", R.drawable.tab_index_selector);
+		tabIcons.put("tag2", R.drawable.tab_more_selector);
+		tabIcons.put("tag3", R.drawable.tab_personal_selector);
+		
+		tabNames.put("tag1", R.string.tab_name_index);
+		tabNames.put("tag2", R.string.tab_name_more);
+		tabNames.put("tag3", R.string.tab_name_personal);
+		
 		tabHostMain = (FragmentTabHost) findViewById(android.R.id.tabhost);
 		tabHostMain.setup(context, getSupportFragmentManager(), android.R.id.tabcontent);
 		
 		for (String key : fragmentMaps.keySet()) {
-			ImageView imageView = new ImageView(context);
-			imageView.setBackgroundResource(R.drawable.ic_launcher);
-			TabSpec tab = tabHostMain.newTabSpec(key).setIndicator(imageView);
+			View tabItem = View.inflate(context, R.layout.tab_item, null);
+			ImageView ivTabIcon = (ImageView) tabItem.findViewById(R.id.iv_tab_icon);
+			ivTabIcon.setImageResource(tabIcons.get(key));
+			TextView tvTabName = (TextView) tabItem.findViewById(R.id.tv_tab_name);
+			tvTabName.setText(tabNames.get(key));
+			TabSpec tab = tabHostMain.newTabSpec(key).setIndicator(tabItem);
 			tabHostMain.addTab(tab, fragmentMaps.get(key), null);
 		}
 		

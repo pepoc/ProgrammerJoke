@@ -45,7 +45,9 @@
             <TabWidget
                 android:id="@android:id/tabs"
                 android:layout_width="match_parent"
-                android:layout_height="50dip"
+                android:layout_height="wrap_content"
+                android:paddingTop="3dip"
+                android:paddingBottom="3dip"
                 android:layout_alignParentBottom="true"
                 android:orientation="horizontal" />
         </RelativeLayout>

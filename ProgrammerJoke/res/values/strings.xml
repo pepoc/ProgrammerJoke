@@ -9,6 +9,10 @@
     <string name="fragment_more">更多</string>
     <string name="fragment_personal_center">个人中心</string>
     
+    <string name="tab_name_index">笑话</string>
+    <string name="tab_name_more">更多</string>
+    <string name="tab_name_personal">我</string>
+    
     <string name="gl_wait">请稍等</string>
     
 

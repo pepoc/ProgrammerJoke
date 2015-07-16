@@ -11,9 +11,9 @@ import com.pepoc.programmerjoke.data.bean.JokeContent;
 import com.pepoc.programmerjoke.net.http.HttpRequest;
 import com.pepoc.programmerjoke.net.http.HttpRequestManager.OnHttpResponseListener;
 
-public class RequestGetCollectJokes extends HttpRequest {
+public class RequestGetCollectedJokes extends HttpRequest {
 	
-	public RequestGetCollectJokes(OnHttpResponseListener onHttpResponseListener) {
+	public RequestGetCollectedJokes(OnHttpResponseListener onHttpResponseListener) {
 		this.URL = "getcollectjokes.php";
 		this.onHttpResponseListener = onHttpResponseListener;
 	}
