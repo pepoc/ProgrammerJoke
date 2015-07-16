@@ -10,6 +10,7 @@ import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -18,6 +19,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.pepoc.programmerjoke.R;
 import com.pepoc.programmerjoke.data.bean.JokeContent;
+import com.pepoc.programmerjoke.manager.WXManager;
 import com.pepoc.programmerjoke.net.http.HttpRequestManager;
 import com.pepoc.programmerjoke.net.http.HttpRequestManager.OnHttpResponseListener;
 import com.pepoc.programmerjoke.net.http.request.RequestGetJokes;
@@ -29,7 +31,7 @@ import com.pepoc.programmerjoke.ui.adapter.ListContentAdapter;
  * @author yangchen
  *
  */
-public class ListContentFragment extends BaseFragment implements OnClickListener, OnItemClickListener, OnRefreshListener2<ListView>, OnScrollListener {
+public class ListContentFragment extends BaseFragment implements OnClickListener, OnItemClickListener, OnItemLongClickListener, OnRefreshListener2<ListView>, OnScrollListener {
 	
 	private PullToRefreshListView mPullRefreshListView;
 	private ListView lvContentList;
@@ -74,6 +76,7 @@ public class ListContentFragment extends BaseFragment implements OnClickListener
 		footerView.setOnClickListener(this);
 		
 		lvContentList.setOnScrollListener(this);
+		lvContentList.setOnItemLongClickListener(this);
 	}
 	
 	@Override
@@ -94,6 +97,16 @@ public class ListContentFragment extends BaseFragment implements OnClickListener
 		Intent intent = new Intent(context, JokeContentActivity.class);
 		intent.putExtra("JokeContent", datas.get(position - 1));
 		startActivity(intent);
+	}
+	
+	@Override
+	public boolean onItemLongClick(AdapterView<?> parent, View view,
+			int position, long id) {
+		List<JokeContent> datas = adapter.getDatas();
+		JokeContent jokeContent = datas.get(position - 1);
+		String url = "pepoc.com/programmerjoke/singlejoke.php?joke_id=" + jokeContent.getJokeId();
+		WXManager.shareUrlToWeChat(context, url, jokeContent.getContent(), jokeContent.getContent(), WXManager.SHARE_MOMENTS);
+		return true;
 	}
 	
 	/**

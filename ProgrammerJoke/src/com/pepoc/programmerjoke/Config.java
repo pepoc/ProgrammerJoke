@@ -21,5 +21,10 @@ public class Config {
 	 * 七牛图片尺寸100*100
 	 */
 	public final static String IMAGE_SIZE = "?imageView2/2/w/100/h/100/q/75/format/JPG";
+	
+	/**
+	 * 微信AppID
+	 */
+	public final static String WX_APP_ID = "wxa1b185c7d104a652";
 
 }
