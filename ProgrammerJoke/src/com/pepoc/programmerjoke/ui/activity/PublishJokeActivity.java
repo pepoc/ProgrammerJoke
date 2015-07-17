@@ -75,6 +75,12 @@ public class PublishJokeActivity extends BaseActivity {
 					etJokeContent.setText("");
 				}
 			}
+			
+			@Override
+			public void onError() {
+				// TODO Auto-generated method stub
+				
+			}
 		});
 		
 		requestAddJoke.putParam("content", content);

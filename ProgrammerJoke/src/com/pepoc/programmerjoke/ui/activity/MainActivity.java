@@ -128,6 +128,12 @@ public class MainActivity extends BaseFragmentActivity implements OnClickListene
 					Toast.makeText(context, "login failed", Toast.LENGTH_SHORT).show();
 				}
 			}
+			
+			@Override
+			public void onError() {
+				// TODO Auto-generated method stub
+				
+			}
 		});
 		
 		requestLogin.putParam("accountNumber", accountNumber);

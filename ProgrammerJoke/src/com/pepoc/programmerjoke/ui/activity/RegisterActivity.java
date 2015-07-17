@@ -115,6 +115,12 @@ public class RegisterActivity extends BaseActivity implements OnClickListener, O
 			public void onHttpResponse(Object result) {
 				
 			}
+			
+			@Override
+			public void onError() {
+				// TODO Auto-generated method stub
+				
+			}
 		});
 		
 		requestGetEmailCaptcha.putParam("email", accountNumber);
@@ -161,6 +167,12 @@ public class RegisterActivity extends BaseActivity implements OnClickListener, O
 				} catch (JSONException e) {
 					log.e("register", e);
 				}
+			}
+			
+			@Override
+			public void onError() {
+				// TODO Auto-generated method stub
+				
 			}
 		});
 		

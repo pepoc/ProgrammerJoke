@@ -58,6 +58,7 @@ public class PersonalCenterFragment extends BaseFragment implements OnClickListe
 	private View llCollected;
 	private View llPublished;
 	private View llSetting;
+	private View llPersonalInfo;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -70,6 +71,7 @@ public class PersonalCenterFragment extends BaseFragment implements OnClickListe
 	@Override
 	public void init() {
 		super.init();
+		llPersonalInfo = findViewById(R.id.ll_personal_info);
 		ivAvatar = (ImageView) findViewById(R.id.iv_avatar);
 		tvNickName = (TextView) findViewById(R.id.tv_nick_name);
 		llCollected = findViewById(R.id.ll_collected);
@@ -82,6 +84,7 @@ public class PersonalCenterFragment extends BaseFragment implements OnClickListe
 	@Override
 	public void setListener() {
 		super.setListener();
+		llPersonalInfo.setOnClickListener(this);
 		ivAvatar.setOnClickListener(this);
 		llCollected.setOnClickListener(this);
 		llPublished.setOnClickListener(this);
@@ -96,6 +99,9 @@ public class PersonalCenterFragment extends BaseFragment implements OnClickListe
 			return ;
 		}
 		switch (v.getId()) {
+		case R.id.ll_personal_info:
+			
+			break;
 		case R.id.iv_avatar:
 			getHeaderFromGallery();
 			break;
@@ -170,6 +176,8 @@ public class PersonalCenterFragment extends BaseFragment implements OnClickListe
 			} else {
 				PImageLoader.getInstance().displayImage(currentUser.getAvatar(), ivAvatar);
 			}
+		} else {
+			tvNickName.setText(R.string.login_or_register);
 		}
 	}
 	
@@ -208,6 +216,12 @@ public class PersonalCenterFragment extends BaseFragment implements OnClickListe
 					}
 				}, null);
 			}
+			
+			@Override
+			public void onError() {
+				// TODO Auto-generated method stub
+				
+			}
 		});
 		
 		key = "pj_avatar_" + System.currentTimeMillis();
@@ -225,6 +239,12 @@ public class PersonalCenterFragment extends BaseFragment implements OnClickListe
 			@Override
 			public void onHttpResponse(Object result) {
 				PImageLoader.getInstance().displayImage(key, ivAvatar);
+			}
+			
+			@Override
+			public void onError() {
+				// TODO Auto-generated method stub
+				
 			}
 		});
 		

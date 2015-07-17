@@ -76,7 +76,7 @@ public class HttpRequestManager {
 
 				@Override
 				public void onErrorResponse(VolleyError error) {
-					
+					request.getOnHttpResponseListener().onError();
 				}
 			});
 		} else if (HttpRequest.METHOD_POST.equals(request.getRequestMethod())) {
@@ -92,7 +92,7 @@ public class HttpRequestManager {
 
 				@Override
 				public void onErrorResponse(VolleyError error) {
-					
+					request.getOnHttpResponseListener().onError();
 				}
 			}, request.getParams());
 		}
@@ -153,6 +153,7 @@ public class HttpRequestManager {
 	
 	public interface OnHttpResponseListener {
 		void onHttpResponse(Object result);
+		void onError();
 	}
 	
 }

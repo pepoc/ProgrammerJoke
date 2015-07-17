@@ -58,6 +58,10 @@ public class JokeContentActivity extends BaseActivity implements OnClickListener
 	public void init() {
 		super.init();
 		
+		View publicTitle = findViewById(R.id.public_title);
+		TextView tvMainFragmentTitle = (TextView) publicTitle.findViewById(R.id.tv_main_fragment_title);
+		tvMainFragmentTitle.setText(R.string.activity_details_name);
+		
 		lvJokeComment = (ListView) findViewById(R.id.lv_joke_comment);
 		headerJokeContent = View.inflate(context, R.layout.header_joke_content, null);
 		lvJokeComment.addHeaderView(headerJokeContent);
@@ -131,6 +135,12 @@ public class JokeContentActivity extends BaseActivity implements OnClickListener
 					getComment();
 				}
 			}
+			
+			@Override
+			public void onError() {
+				// TODO Auto-generated method stub
+				
+			}
 		});
 		
 		request.putParam("content", commentContent);
@@ -152,6 +162,12 @@ public class JokeContentActivity extends BaseActivity implements OnClickListener
 				jokeContentAdapter.setJokeComments(jokeComments);
 				jokeContentAdapter.notifyDataSetChanged();
 			}
+			
+			@Override
+			public void onError() {
+				// TODO Auto-generated method stub
+				
+			}
 		});
 		
 		request.putParam("jokeId", jokeContent.getJokeId());
@@ -166,6 +182,12 @@ public class JokeContentActivity extends BaseActivity implements OnClickListener
 			public void onHttpResponse(Object result) {
 				
 			}
+			
+			@Override
+			public void onError() {
+				// TODO Auto-generated method stub
+				
+			}
 		});
 		
 		request.putParam("jokeId", jokeContent.getJokeId());
@@ -178,6 +200,12 @@ public class JokeContentActivity extends BaseActivity implements OnClickListener
 			
 			@Override
 			public void onHttpResponse(Object result) {
+				
+			}
+			
+			@Override
+			public void onError() {
+				// TODO Auto-generated method stub
 				
 			}
 		});

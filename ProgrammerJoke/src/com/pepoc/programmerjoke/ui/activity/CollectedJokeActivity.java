@@ -110,6 +110,12 @@ public class CollectedJokeActivity extends BaseActivity implements OnRefreshList
 				mPullRefreshListView.onRefreshComplete();
 				footerView.setVisibility(View.VISIBLE);
 			}
+			
+			@Override
+			public void onError() {
+				// TODO Auto-generated method stub
+				
+			}
 		});
 		
 		request.putParam("page", String.valueOf(page));

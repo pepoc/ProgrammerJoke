@@ -110,6 +110,12 @@ public class LoginActivity extends BaseActivity implements OnClickListener, Obse
 					Toast.makeText(context, "login failed", Toast.LENGTH_SHORT).show();
 				}
 			}
+			
+			@Override
+			public void onError() {
+				// TODO Auto-generated method stub
+				
+			}
 		});
 		
 		requestLogin.putParam("accountNumber", accountNumber);

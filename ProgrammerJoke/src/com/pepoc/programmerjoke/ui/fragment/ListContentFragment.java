@@ -15,9 +15,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
-import com.pepoc.programmerjoke.Config;
 import com.pepoc.programmerjoke.R;
 import com.pepoc.programmerjoke.data.bean.JokeContent;
 import com.pepoc.programmerjoke.manager.WXManager;
@@ -32,7 +31,7 @@ import com.pepoc.programmerjoke.ui.adapter.ListContentAdapter;
  * @author yangchen
  *
  */
-public class ListContentFragment extends BaseFragment implements OnClickListener, OnItemClickListener, OnItemLongClickListener, OnRefreshListener2<ListView>, OnScrollListener {
+public class ListContentFragment extends BaseFragment implements OnClickListener, OnItemClickListener, OnItemLongClickListener, OnRefreshListener<ListView>, OnScrollListener {
 	
 	private PullToRefreshListView mPullRefreshListView;
 	private ListView lvContentList;
@@ -42,6 +41,9 @@ public class ListContentFragment extends BaseFragment implements OnClickListener
 	
 	/** 是否还有更多数据 */
 	private boolean isHasMoreData = true;
+	
+	/** 是否正在请求数据 */
+	private boolean isRequesting = false;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -126,6 +128,8 @@ public class ListContentFragment extends BaseFragment implements OnClickListener
 			page++;
 		}
 		
+		isRequesting = true;
+		
 		RequestGetJokes request = new RequestGetJokes(new OnHttpResponseListener() {
 			
 			@Override
@@ -141,6 +145,15 @@ public class ListContentFragment extends BaseFragment implements OnClickListener
 				adapter.notifyDataSetChanged();
 				mPullRefreshListView.onRefreshComplete();
 				footerView.setVisibility(View.VISIBLE);
+				
+				isRequesting = false;
+			}
+			
+			@Override
+			public void onError() {
+				page--;
+				isRequesting = false;
+				log.e("----------onError()---------");
 			}
 		});
 		
@@ -150,19 +163,15 @@ public class ListContentFragment extends BaseFragment implements OnClickListener
 	}
 
 	@Override
-	public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+	public void onRefresh(PullToRefreshBase<ListView> refreshView) {
 		getData(true);
-	}
-
-	@Override
-	public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-		getData(false);
 	}
 
 	@Override
 	public void onScrollStateChanged(AbsListView view, int scrollState) {
 		if (scrollState == OnScrollListener.SCROLL_STATE_IDLE) {
-			if (view.getLastVisiblePosition() == view.getCount() - 1) {
+			// 如果当前没有请求数据 并且 ListView是显示到最后一条
+			if (!isRequesting && view.getLastVisiblePosition() == view.getCount() - 1) {
 				getData(false);
 			}
 		}
