@@ -2,9 +2,12 @@ package com.pepoc.programmerjoke.ui.activity;
 
 import java.util.List;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.ListView;
@@ -20,7 +23,7 @@ import com.pepoc.programmerjoke.net.http.request.RequestGetCollectedJokes;
 import com.pepoc.programmerjoke.ui.adapter.ListContentAdapter;
 import com.pepoc.programmerjoke.user.UserManager;
 
-public class CollectedJokeActivity extends BaseActivity implements OnRefreshListener<ListView>, OnScrollListener {
+public class CollectedJokeActivity extends BaseActivity implements OnRefreshListener<ListView>, OnItemClickListener, OnScrollListener {
 	
 	private PullToRefreshListView mPullRefreshListView;
 	private ListView lvContentList;
@@ -70,6 +73,7 @@ public class CollectedJokeActivity extends BaseActivity implements OnRefreshList
 	public void setListener() {
 		super.setListener();
 		
+		lvContentList.setOnItemClickListener(this);
 		lvContentList.setOnScrollListener(this);
 	}
 
@@ -137,5 +141,14 @@ public class CollectedJokeActivity extends BaseActivity implements OnRefreshList
 	public void onScroll(AbsListView view, int firstVisibleItem,
 			int visibleItemCount, int totalItemCount) {
 		
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position,
+			long id) {
+		List<JokeContent> datas = adapter.getDatas();
+		Intent intent = new Intent(context, JokeContentActivity.class);
+		intent.putExtra("JokeContent", datas.get(position - 1));
+		startActivity(intent);
 	}
 }

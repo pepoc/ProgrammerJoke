@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -59,6 +60,10 @@ public class ListContentAdapter extends BaseAdapter {
 			vh.tvContent = (TextView) convertView.findViewById(R.id.tv_content);
 			vh.tvCreateTime = (TextView) convertView.findViewById(R.id.tv_create_time);
 			vh.tvJokeId = (TextView) convertView.findViewById(R.id.tv_joke_id);
+			vh.btnLikeJoke = (TextView) convertView.findViewById(R.id.btn_like_joke);
+			vh.btnCollectJoke = (TextView) convertView.findViewById(R.id.btn_collect_joke);
+			vh.tvLikeCount = (TextView) convertView.findViewById(R.id.tv_like_count);
+			vh.tvCollectCount = (TextView) convertView.findViewById(R.id.tv_collect_count);
 			convertView.setTag(vh);
 		}
 		ViewHolder vh = (ViewHolder) convertView.getTag();
@@ -67,6 +72,10 @@ public class ListContentAdapter extends BaseAdapter {
 		vh.tvContent.setText(jokeContent.getContent());
 		vh.tvCreateTime.setText(jokeContent.getCreateTime());
 		vh.tvJokeId.setText(jokeContent.getJokeId());
+		vh.btnLikeJoke.setText("喜欢:" + jokeContent.getIslike());
+		vh.tvLikeCount.setText(jokeContent.getLikeCount());
+		vh.btnCollectJoke.setText("收藏:" + jokeContent.getIscollect());
+		vh.tvCollectCount.setText(jokeContent.getCollectCount());
 		if (TextUtils.isEmpty(jokeContent.getUserAvatar())) {
 			vh.ivUserAvatar.setImageResource(R.drawable.icon);
 		} else {
@@ -81,6 +90,10 @@ public class ListContentAdapter extends BaseAdapter {
 		TextView tvContent;
 		TextView tvCreateTime;
 		TextView tvJokeId;
+		TextView btnLikeJoke;
+		TextView btnCollectJoke;
+		TextView tvLikeCount;
+		TextView tvCollectCount;
 	}
 
 }

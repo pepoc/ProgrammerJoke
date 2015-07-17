@@ -11,6 +11,10 @@ public class JokeContent implements Parcelable {
 	private String userId;
 	private String userNickName;
 	private String userAvatar;
+	private String islike;
+	private String iscollect;
+	private String likeCount;
+	private String collectCount;
 	
 	public String getJokeId() {
 		return jokeId;
@@ -48,6 +52,30 @@ public class JokeContent implements Parcelable {
 	public void setUserAvatar(String userAvatar) {
 		this.userAvatar = userAvatar;
 	}
+	public String getIslike() {
+		return islike;
+	}
+	public void setIslike(String islike) {
+		this.islike = islike;
+	}
+	public String getIscollect() {
+		return iscollect;
+	}
+	public void setIscollect(String iscollect) {
+		this.iscollect = iscollect;
+	}
+	public String getLikeCount() {
+		return likeCount;
+	}
+	public void setLikeCount(String likeCount) {
+		this.likeCount = likeCount;
+	}
+	public String getCollectCount() {
+		return collectCount;
+	}
+	public void setCollectCount(String collectCount) {
+		this.collectCount = collectCount;
+	}
 	@Override
 	public int describeContents() {
 		return 0;
@@ -60,6 +88,10 @@ public class JokeContent implements Parcelable {
 		dest.writeString(userId);
 		dest.writeString(userNickName);
 		dest.writeString(userAvatar);
+		dest.writeString(islike);
+		dest.writeString(iscollect);
+		dest.writeString(likeCount);
+		dest.writeString(collectCount);
 	}
 	
 	public static final Parcelable.Creator<JokeContent> CREATOR = new Creator<JokeContent>() {
@@ -73,6 +105,10 @@ public class JokeContent implements Parcelable {
 			jokeContent.userId = source.readString();
 			jokeContent.userNickName = source.readString();
 			jokeContent.userAvatar = source.readString();
+			jokeContent.islike = source.readString();
+			jokeContent.iscollect = source.readString();
+			jokeContent.likeCount = source.readString();
+			jokeContent.collectCount = source.readString();
 			return jokeContent;
 		}
 
