@@ -2,6 +2,7 @@ package com.pepoc.programmerjoke.ui.activity;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentTabHost;
@@ -28,7 +29,7 @@ import com.pepoc.programmerjoke.utils.Preference;
 public class MainActivity extends BaseFragmentActivity implements OnClickListener {
 
 	private FragmentTabHost tabHostMain;
-	private Map<String, Class<? extends BaseFragment>> fragmentMaps = new HashMap<String, Class<? extends BaseFragment>>();
+	private Map<String, Class<? extends BaseFragment>> fragmentMaps = new TreeMap<String, Class<? extends BaseFragment>>();
 	private Map<String, Integer> titles = new HashMap<String, Integer>();
 	private Map<String, Integer> tabIcons = new HashMap<String, Integer>();
 	private Map<String, Integer> tabNames = new HashMap<String, Integer>();
