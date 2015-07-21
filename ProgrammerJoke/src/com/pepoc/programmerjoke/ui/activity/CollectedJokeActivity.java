@@ -4,17 +4,15 @@ import java.util.List;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.TextView;
-import android.widget.AbsListView.OnScrollListener;
 import android.widget.ListView;
+import android.widget.TextView;
 
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.pepoc.programmerjoke.R;
 import com.pepoc.programmerjoke.data.bean.JokeContent;
 import com.pepoc.programmerjoke.net.http.HttpRequestManager;
@@ -23,9 +21,9 @@ import com.pepoc.programmerjoke.net.http.request.RequestGetCollectedJokes;
 import com.pepoc.programmerjoke.ui.adapter.ListContentAdapter;
 import com.pepoc.programmerjoke.user.UserManager;
 
-public class CollectedJokeActivity extends BaseActivity implements OnRefreshListener<ListView>, OnItemClickListener, OnScrollListener {
+public class CollectedJokeActivity extends BaseActivity implements OnItemClickListener, OnScrollListener, SwipeRefreshLayout.OnRefreshListener {
 	
-	private PullToRefreshListView mPullRefreshListView;
+	private SwipeRefreshLayout swipeRefreshLayout;
 	private ListView lvContentList;
 	private ListContentAdapter adapter;
 	private int page = 1;
@@ -52,11 +50,10 @@ public class CollectedJokeActivity extends BaseActivity implements OnRefreshList
 		View publicTitle = findViewById(R.id.public_title);
 		tvMainFragmentTitle = (TextView) publicTitle.findViewById(R.id.tv_main_fragment_title);
 		tvMainFragmentTitle.setText(R.string.activity_collected_name);
-		
-		mPullRefreshListView = (PullToRefreshListView) findViewById(R.id.lv_collected_list_refresh);
-		mPullRefreshListView.setPullToRefreshOverScrollEnabled(false);
-		lvContentList = mPullRefreshListView.getRefreshableView();
-		mPullRefreshListView.setOnRefreshListener(this);
+		swipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swipe_refresh_layout);
+		swipeRefreshLayout.setColorSchemeResources(android.R.color.background_dark
+                , android.R.color.black, android.R.color.black, android.R.color.background_dark);
+		lvContentList = (ListView) findViewById(R.id.lv_collected_list_refresh);
 		adapter = new ListContentAdapter(context);
 		lvContentList.setAdapter(adapter);
 		
@@ -72,13 +69,13 @@ public class CollectedJokeActivity extends BaseActivity implements OnRefreshList
 	@Override
 	public void setListener() {
 		super.setListener();
-		
+		swipeRefreshLayout.setOnRefreshListener(this);
 		lvContentList.setOnItemClickListener(this);
 		lvContentList.setOnScrollListener(this);
 	}
 
 	@Override
-	public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+	public void onRefresh() {
 		getData(true);
 	}
 	
@@ -111,7 +108,7 @@ public class CollectedJokeActivity extends BaseActivity implements OnRefreshList
 				}
 				adapter.setDatas(datas);
 				adapter.notifyDataSetChanged();
-				mPullRefreshListView.onRefreshComplete();
+				swipeRefreshLayout.setRefreshing(false);
 				footerView.setVisibility(View.VISIBLE);
 			}
 			

@@ -6,6 +6,7 @@ import java.util.Observer;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AbsListView;
@@ -16,9 +17,6 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.pepoc.programmerjoke.R;
 import com.pepoc.programmerjoke.data.bean.JokeContent;
 import com.pepoc.programmerjoke.manager.WXManager;
@@ -36,9 +34,9 @@ import com.pepoc.programmerjoke.utils.Preference;
  * @author yangchen
  *
  */
-public class ListContentFragment extends BaseFragment implements OnClickListener, OnItemClickListener, OnItemLongClickListener, OnRefreshListener<ListView>, OnScrollListener, Observer {
+public class ListContentFragment extends BaseFragment implements OnClickListener, OnItemClickListener, OnItemLongClickListener, OnScrollListener, Observer, SwipeRefreshLayout.OnRefreshListener {
 	
-	private PullToRefreshListView mPullRefreshListView;
+	private SwipeRefreshLayout swipeRefreshLayout;
 	private ListView lvContentList;
 	private ListContentAdapter adapter;
 	private int page = 1;
@@ -61,13 +59,13 @@ public class ListContentFragment extends BaseFragment implements OnClickListener
 	@Override
 	public void init() {
 		super.init();
-		
-		mPullRefreshListView = (PullToRefreshListView) findViewById(R.id.lv_content_list_refresh);
-		mPullRefreshListView.setPullToRefreshOverScrollEnabled(false);
-		lvContentList = mPullRefreshListView.getRefreshableView();
-		mPullRefreshListView.setOnRefreshListener(this);
+		swipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swipe_refresh_layout);
+		lvContentList = (ListView) findViewById(R.id.lv_content_list);
 		adapter = new ListContentAdapter(context);
 		lvContentList.setAdapter(adapter);
+		
+        swipeRefreshLayout.setColorSchemeResources(android.R.color.background_dark
+                , android.R.color.black, android.R.color.black, android.R.color.background_dark);
 		
 		footerView = View.inflate(context, R.layout.footer_view, null);
 		footerView.setVisibility(View.GONE);
@@ -83,7 +81,7 @@ public class ListContentFragment extends BaseFragment implements OnClickListener
 	@Override
 	public void setListener() {
 		super.setListener();
-		
+		swipeRefreshLayout.setOnRefreshListener(this);
 		lvContentList.setOnItemClickListener(this);
 		footerView.setOnClickListener(this);
 		
@@ -152,7 +150,7 @@ public class ListContentFragment extends BaseFragment implements OnClickListener
 				}
 				adapter.setDatas(datas);
 				adapter.notifyDataSetChanged();
-				mPullRefreshListView.onRefreshComplete();
+				swipeRefreshLayout.setRefreshing(false);
 				footerView.setVisibility(View.VISIBLE);
 				
 				isRequesting = false;
@@ -178,10 +176,10 @@ public class ListContentFragment extends BaseFragment implements OnClickListener
 	}
 
 	@Override
-	public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+	public void onRefresh() {
 		getData(true);
 	}
-
+	
 	@Override
 	public void onScrollStateChanged(AbsListView view, int scrollState) {
 		if (scrollState == OnScrollListener.SCROLL_STATE_IDLE) {

@@ -3,16 +3,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    
-    <include 
+
+    <include
         android:id="@+id/public_title"
-        layout="@layout/title_view"/>
-    
-    <com.handmark.pulltorefresh.library.PullToRefreshListView
-        xmlns:ptr="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/lv_collected_list_refresh"
+        layout="@layout/title_view" />
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        ptr:ptrHeaderTextColor="@android:color/darker_gray" />
+        android:layout_height="match_parent" >
+
+        <ListView
+            android:id="@+id/lv_collected_list_refresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>
